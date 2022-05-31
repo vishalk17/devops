@@ -1,0 +1,615 @@
+
+Dockerfile is basically a text file. it contains some set of instructions. Automation of Docker image creation.
+
+Dockerfile: Steps to create and run dockerfile
+
+1. Create a file named Dockerfile
+2. Add instructions in Dockerfile
+3. Build dockerfile to create image
+4. Run image to create container
+
+--------------- DOCKER:COMPLETE LAB SECTION  -------------------------
+
+login as: ec2-user
+
+[root@ip-172-31-87-19 ec2-user]# sudo su
+
+[root@ip-172-31-87-19 ec2-user]# yum update -y
+
+[root@ip-172-31-87-19 ec2-user]# yum install docker -y
+
+[root@ip-172-31-87-19 ec2-user]# which docker
+/bin/docker
+
+[root@ip-172-31-87-19 ec2-user]# docker --version
+Docker version 20.10.7, build f0df350
+
+[root@ip-172-31-87-19 ec2-user]# docker -v
+Docker version 20.10.7, build f0df350
+
+[root@ip-172-31-87-19 ec2-user]# docker
+
+[root@ip-172-31-87-19 ec2-user]# docker version
+Client:
+ Version:           20.10.7
+ API version:       1.41
+ Go version:        go1.15.14
+ Git commit:        f0df350
+ Built:             Wed Nov 17 03:05:36 2021
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      true
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+---
+
+[root@ip-172-31-87-19 ec2-user]# service docker status
+Redirecting to /bin/systemctl status docker.service
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; disabled; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: https://docs.docker.com
+-----
+
+[root@ip-172-31-87-19 ec2-user]# docker info
+Client:
+ Context:    default
+ Debug Mode: false
+
+Server:
+ERROR: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+errors pretty printing info
+----
+
+[root@ip-172-31-87-19 ec2-user]# service docker start
+Redirecting to /bin/systemctl start docker.service
+
+[root@ip-172-31-87-19 ec2-user]# docker search ubuntu
+
+[root@ip-172-31-87-19 ec2-user]# docker pull ubuntu
+
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY           TAG       IMAGE ID       CREATED          SIZE
+ubuntu               latest    54c9d81cbb44   4 weeks ago      72.8MB
+
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name container1 ubuntu /bin/bash
+
+root@217133f636b2:/# ls
+
+root@217133f636b2:/# cd tmp
+
+root@217133f636b2:/tmp# ls
+
+root@217133f636b2:/tmp# touch file1 myfile testfile
+
+root@217133f636b2:/tmp# ls
+file1 myfile testfile
+
+root@217133f636b2:/tmp# exit
+
+[root@ip-172-31-87-19 ec2-user]# docker diff container1
+C /root
+A /root/.bash_history
+C /tmp
+A /tmp/file1
+A /tmp/myfile
+A /tmp/testfile
+
+[root@ip-172-31-87-19 ec2-user]# docker ps -a
+
+[root@ip-172-31-87-19 var]# docker commit container1 image1
+sha256:bcbc8cf57583ba4fbdd87e2f11a9eeedccf6f67555fac245f75eafc7a5351931
+--
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+image1       latest    bcbc8cf57583   37 seconds ago   72.8MB
+ubuntu       latest    54c9d81cbb44   4 weeks ago      72.8MB
+---
+[root@ip-172-31-87-19  ec2-user]# docker start container1
+container1
+----
+[root@ip-172-31-87-19 ec2-user]# docker ps
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS         PORTS     NAMES
+81ec54663b0d   ubuntu    "/bin/bash"   25 minutes ago   Up 6 seconds             container1
+-----
+[root@ip-172-31-92-27  ec2-user]# docker attach container1
+root@81ec54663b0d:/#
+--
+root@81ec54663b0d:/# cat /etc/os-release
+NAME="Ubuntu"
+VERSION="20.04.3 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.3 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+
+--------- Dockerfile, container and image creation --------------
+ 
+Dockerfile: Steps to create and run dockerfile
+
+1. Create a file name Dockerfile
+2. Add instructions in Dockerfile
+3. Build dockerfile to create image
+4. Run image to create container
+---
+[root@ip-172-31-87-19 ec2-user]# vi Dockerfile
+FROM ubuntu
+RUN echo "Subscribe Technical Guftgu Channel">/tmp/testfile
+-----
+[root@ip-172-31-87-19 ec2-user]# docker build -t imagefromdockerfile .
+Sending build context to Docker daemon   7.68kB
+Step 1/2 : FROM ubuntu
+ ---> 54c9d81cbb44
+Step 2/2 : RUN echo "Subscribe Technical Guftgu Channel">/tmp/testfile
+ ---> Running in b9dfa1c5ff3c
+Removing intermediate container b9dfa1c5ff3c
+ ---> ee0ab94fa471
+Successfully built ee0ab94fa471
+Successfully tagged imagefromdockerfile:latest
+---------
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name container2 imagefromdockerfile /bin/bash
+
+root@33cc6b953e0d:/# ls
+
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr
+
+root@33cc6b953e0d:/# cd tmp
+
+root@33cc6b953e0d:/tmp# ls
+testfile
+
+root@33cc6b953e0d:/tmp# cat testfile
+Subscribe Technical Guftgu Channel
+------------
+[root@ip-172-31-87-19 ec2-user]# vi Dockerfile
+FROM ubuntu
+WORKDIR /tmp
+RUN echo "LIKE,SHARE AND SUBSCRIBE TECHNICAL GUFTGU CHANNEL">/tmp/myfile
+ENV myname  dhrubaaryal
+COPY testfile1  /tmp
+ADD test.tar.gz /tmp
+
+[root@ip-172-31-87-19 ec2-user]# touch test testfile1
+
+[root@ip-172-31-87-19 ec2-user]# ls
+Dockerfile  test  testfile1
+
+[root@ip-172-31-87-19 ec2-user]# tar -cvf test.tar test
+test
+
+[root@ip-172-31-87-19 ec2-user]# ls
+Dockerfile  test  testfile1  test.tar
+
+[root@ip-172-31-87-19 ec2-user]# gzip test.tar
+
+[root@ip-172-31-87-19 ec2-user]# ls
+Dockerfile  test  testfile1  test.tar.gz
+------
+[root@ip-172-31-87-19 ec2-user]# docker build -t secondimage .
+Sending build context to Docker daemon  9.728kB
+Step 1/6 : FROM ubuntu
+ ---> 54c9d81cbb44
+Step 2/6 : WORKDIR /tmp
+ ---> Using cache
+ ---> 023669f0578f
+Step 3/6 : RUN echo "LIKE,SHARE AND SUBSCRIBE TECHNICAL GUFTGU CHANNEL">/tmp/myfile
+ ---> Using cache
+ ---> a8cd2b21357e
+Step 4/6 : ENV myname  dhrubaaryal
+ ---> Using cache
+ ---> a5b99be54841
+Step 5/6 : COPY testfile1  /tmp
+ ---> 4fecb6dfb545
+Step 6/6 : ADD test.tar.gz /tmp
+ ---> 7e075992a664
+Successfully built 7e075992a664
+Successfully tagged secondimage:latest
+-----------
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY            TAG       IMAGE ID       CREATED          SIZE
+secondimage           latest    7e075992a664   30 seconds ago   72.8MB
+imagefromdockerfile   latest    ee0ab94fa471   10 minutes ago   72.8MB
+image1                latest    bcbc8cf57583   41 minutes ago   72.8MB
+ubuntu                latest    54c9d81cbb44   4 weeks ago      72.8MB
+--------
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name container3 secondimage /bin/bash
+
+root@677a11dddbd4:/tmp# ls
+myfile  test  testfile1
+
+root@677a11dddbd4:/tmp# cat myfile
+LIKE,SHARE AND SUBSCRIBE TECHNICAL GUFTGU CHANNEL
+------
+
+root@677a11dddbd4:/tmp# echo $myname
+dhrubaaryal
+
+----------------CREATE DOCKER VOLUME USING DOCKER FILE---------
+
+[root@ip-172-31-87-19 ec2-user]# vi Dockerfile
+FROM ubuntu
+VOLUME ["/myvolume"]
+--------
+[root@ip-172-31-87-19 ec2-user]# docker build -t myimage .
+Sending build context to Docker daemon  9.728kB
+Step 1/2 : FROM ubuntu
+ ---> 54c9d81cbb44
+Step 2/2 : VOLUME ["/myvolume"]
+ ---> Running in 4dcb43f6d56b
+Removing intermediate container 4dcb43f6d56b
+ ---> f13bf29cdb11
+Successfully built f13bf29cdb11
+Successfully tagged myimage:latest
+---------------
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY            TAG       IMAGE ID       CREATED             SIZE
+myimage               latest    f13bf29cdb11   14 seconds ago      72.8MB
+secondimage           latest    7e075992a664   32 minutes ago      72.8MB
+imagefromdockerfile   latest    ee0ab94fa471   43 minutes ago      72.8MB
+image1                latest    bcbc8cf57583   About an hour ago   72.8MB
+ubuntu                latest    54c9d81cbb44   4 weeks ago         72.8MB
+------
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name volumecontainer myimage /bin/bash
+
+root@a5c93efb838a:/# ls
+bin   dev  home  lib32  libx32  mnt       opt   root  sbin  sys  usr
+boot  etc  lib   lib64  media   myvolume  proc  run   srv   tmp  var
+
+root@a5c93efb838a:/# cd myvolume
+
+root@a5c93efb838a:/myvolume# ls
+
+root@a5c93efb838a:/myvolume# touch file1 file2
+
+root@a5c93efb838a:/myvolume# mkdir dir1 dir2
+
+root@a5c93efb838a:/myvolume# ls
+dir1  dir2  file1  file2
+
+root@a5c93efb838a:/myvolume# exit
+
+-------------- SHARING VOLUME WITH ANOTHER CONTAINERS   ------------
+
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name container5 --privileged=true --volumes-from volumecontainer ubuntu /bin/bash
+
+root@08aa8d3d43c8:/# ls
+
+bin   dev  home  lib32  libx32  mnt       opt   root  sbin  sys  usr
+boot  etc  lib   lib64  media   myvolume  proc  run   srv   tmp  var
+
+root@08aa8d3d43c8:/# cd myvolume
+
+root@08aa8d3d43c8:/myvolume# ls
+dir1  dir2  file1  file2
+
+root@08aa8d3d43c8:/myvolume# touch samplefile1 samplefile2
+
+root@08aa8d3d43c8:/myvolume# ls
+dir1  dir2  file1  file2  samplefile1  samplefile2
+
+root@08aa8d3d43c8:/myvolume# exit
+exit
+
+[root@ip-172-31-87-19 ec2-user]# docker start volumecontainer
+volumecontainer
+
+[root@ip-172-31-87-19 ec2-user]# docker attach volumecontainer
+
+root@a5c93efb838a:/# ls
+bin   dev  home  lib32  libx32  mnt       opt   root  sbin  sys  usr
+boot  etc  lib   lib64  media   myvolume  proc  run   srv   tmp  var
+
+root@a5c93efb838a:/# cd myvolume
+
+root@a5c93efb838a:/myvolume# ls
+dir1  dir2  file1  file2  samplefile1  samplefile2
+----
+
+
+------------------  Create volume by using command   ------------------
+
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name container10 -v /volume2 ubuntu /bin/bash
+
+root@5fa80f3c66ec:/# ls
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr  volume2
+
+root@5fa80f3c66ec:/# cd volume2
+
+root@5fa80f3c66ec:/volume2# touch testfile1 testfile2
+
+root@5fa80f3c66ec:/volume2# ls
+testfile1  testfile2
+
+root@5fa80f3c66ec:/volume2# exit
+exit
+
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name container11 --privileged=true --volumes-from container10 ubuntu /bin/bash
+
+root@4c7fbd4cf690:/# ls
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr  volume2
+
+root@4c7fbd4cf690:/# cd volume2
+
+root@4c7fbd4cf690:/volume2# ls
+testfile1  testfile2
+
+--------- DOCKER VOLUMES (HOST <--> CONTAINER) -----------------
+
+[root@ip-172-31-87-19 ec2-user]# pwd
+/home/ec2-user
+
+[root@ip-172-31-87-19 ec2-user]# ls
+Dockerfile  samplefile  testfile
+
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name hostcontainer -v /home/ec2-user:/devops --privileged=true ubuntu /bin/bash
+
+root@40ccd9bc6fbd:/# ls
+bin   dev     etc   lib    lib64   media  opt   root  sbin  sys  usr
+boot  devops  home  lib32  libx32  mnt    proc  run   srv   tmp  var
+
+root@40ccd9bc6fbd:/# cd devops
+
+root@40ccd9bc6fbd:/devops# ls
+Dockerfile  samplefile  testfile
+
+root@40ccd9bc6fbd:/devops# touch contfile1 contfile2
+
+root@40ccd9bc6fbd:/devops# ls
+Dockerfile  contfile1  contfile2  samplefile  testfile
+
+root@40ccd9bc6fbd:/devops# exit
+exit
+
+[root@ip-172-31-87-19 ec2-user]# ls
+contfile1  contfile2  Dockerfile  samplefile  testfile
+
+[root@ip-172-31-87-19 ec2-user]# docker volume create volume2
+volume2
+
+[root@ip-172-31-87-19 ec2-user]# docker volume inspect volume2
+[
+    {
+        "CreatedAt": "2022-03-03T19:59:28Z",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/volume2/_data",
+        "Name": "volume2",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+----
+[root@ip-172-31-87-19 ec2-user]# docker volume ls
+DRIVER    VOLUME NAME
+local     4f89d42fb98c5eaa54428aca7df77fb20d52ef4297df5c0809a80b4e870b5f32
+local     6d2eefe87d5ba6e65d097d6eafab8568bef7c5b91b9fb415ff42ab12581d18f0
+local     0087be4fd10b536bd7ce10a9ffce81e0032bf5db428637a8eb7cc6a25f70d60a
+local     4049181fa7dd0e4607808912433e722fedb37d5e17fcf9c7c44398f7cae322f0
+local     a8680f298daaf9dc3f593f68231b36659694a685b38d78110b87a7cc69816db5
+local     e7b3c8c7beea4f3d16890e63ce9757b645ddf1f179a26f7b7d5ae488a2e0f5ad
+local     volume1
+local     volume2
+------
+[root@ip-172-31-87-19 ec2-user]# docker volume rm volume2
+volume2
+
+[root@ip-172-31-87-19 ec2-user]# docker volume prune
+WARNING! This will remove all local volumes not used by at least one containr.
+Are you sure you want to continue? [y/N]
+------
+
+[root@ip-172-31-87-19 ec2-user]# docker container inspect volumecontainer
+[
+    {
+        "Id": "a5c93efb838acd808f50a7aa9dd9ce2965f75e6b6de62ee91e68cfbf88f9828a",
+        "Created": "2022-03-03T19:23:24.168171463Z",
+        "Path": "/bin/bash",
+        "Args": [],
+        "State": {
+            "Status": "exited",
+
+----------------------   DOCKER PORT  -------------------------
+
+[root@ip-172-31-87-19 ec2-user]# docker run -td --name techserver -p 80:80 ubuntu
+8715a6cd9b2b9b7c2af3d8235ef91feff59c6cac83f0560dc71645534c49c8f9
+
+[root@ip-172-31-87-19 ec2-user]# docker  ps
+CONTAINER ID   IMAGE     COMMAND   CREATED         STATUS         PORTS                               NAMES
+8715a6cd9b2b   ubuntu    "bash"    9 seconds ago   Up 8 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   techserver
+
+[root@ip-172-31-87-19 ec2-user]# docker port techserver
+80/tcp -> 0.0.0.0:80
+80/tcp -> :::80
+
+[root@ip-172-31-87-19 ec2-user]# docker exec -it techserver /bin/bash
+
+root@8715a6cd9b2b:/# apt-get update
+
+root@8715a6cd9b2b:/# apt-get install apache2 -y
+
+root@8715a6cd9b2b:/# ls
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr
+
+root@8715a6cd9b2b:/# cd /var/www/html
+
+root@8715a6cd9b2b:/var/www/html# echo "SUBSCRIBE TECH GUFTGU CHANNEL">index.html
+
+root@8715a6cd9b2b:/var/www/html# service apache2 restart
+ * Restarting Apache httpd web server apache2
+----------------
+http://3.82.222.193/
+SUBSCRIBE TECH GUFTGU CHANNEL
+
+-------------- For Accessing jenkins URL on browser ------------------
+
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY            TAG       IMAGE ID       CREATED             SIZE
+myimage               latest    f13bf29cdb11   50 minutes ago      72.8MB
+secondimage           latest    7e075992a664   About an hour ago   72.8MB
+imagefromdockerfile   latest    ee0ab94fa471   2 hours ago         72.8MB
+image1                latest    bcbc8cf57583   2 hours ago         72.8MB
+ubuntu                latest    54c9d81cbb44   4 weeks ago         72.8MB
+--
+[root@ip-172-31-87-19 ec2-user]# docker rmi -f $(docker images -q)
+
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+
+[root@ip-172-31-87-19 ec2-user]# docker rm -f $(docker ps -a -q)
+
+[root@ip-172-31-87-19 ec2-user]# docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+--
+[root@ip-172-31-87-19 ec2-user]# docker run -td --name myjenkins -p 8080:8080 jenkins/jenkins
+Unable to find image 'jenkins/jenkins:latest' locally
+latest: Pulling from jenkins/jenkins
+----
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY        TAG       IMAGE ID       CREATED      SIZE
+jenkins/jenkins   latest    8abb1f037d12   2 days ago   463MB
+--
+[root@ip-172-31-87-19 ec2-user]# docker port myjenkins
+8080/tcp -> 0.0.0.0:8080
+8080/tcp -> :::8080
+--
+[root@ip-172-31-87-19 ec2-user]# docker exec -it myjenkins /bin/bash
+
+jenkins@40f880f998d6:/$ ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+--
+jenkins@40f880f998d6:/$ cd var
+--
+jenkins@40f880f998d6:/var$ ls
+backups  jenkins_home  local  log   opt  spool
+cache    lib           lock   mail  run  tmp
+
+jenkins@40f880f998d6:/var$ cd jenkins_home
+--
+jenkins@40f880f998d6:~$ ls
+config.xml                        nodeMonitors.xml          tini_pub.gpg
+copy_reference_file.log           nodes                     updates
+hudson.model.UpdateCenter.xml     plugins                   userContent
+identity.key.enc                  secret.key                users
+jenkins.telemetry.Correlator.xml  secret.key.not-so-secret  war
+jobs                              secrets
+--
+jenkins@40f880f998d6:~$ cd secrets
+--
+jenkins@40f880f998d6:~/secrets$ ls
+initialAdminPassword
+jenkins.model.Jenkins.crumbSalt
+master.key
+org.jenkinsci.main.modules.instance_identity.InstanceIdentity.KEY
+--
+jenkins@40f880f998d6:~/secrets$ cat initialAdminPassword
+6593efca375e4cc4a2be4ad1aaeff296
+--
+url of browser
+http://3.82.222.193:8080/
+
+Initial admin password for jenkins
+/var/jenkins_home/secrets/initialAdminPassword
+
+---------------- PUSH DOCKER IMAGE IN DOCKERHUB -----------------
+
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+ubuntu            latest    2b4cba85892a   31 minutes ago   72.8MB
+jenkins/jenkins   latest    8abb1f037d12   2 days ago       463MB
+
+[root@ip-172-31-87-19 ec2-user]# docker run -it --name container1 ubuntu /bin/bash
+
+[root@ip-172-31-87-19 ec2-user]# docker commit container1 image1
+sha256:192a7b850910a012422d18269b5179af15ecf0762fdc282736fd2e0969ecfb95
+
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+image1            latest    192a7b850910   14 seconds ago   72.8MB
+ubuntu            latest    2b4cba85892a   32 minutes ago   72.8MB
+jenkins/jenkins   latest    8abb1f037d12   2 days ago       463MB
+
+[root@ip-172-31-87-19 ec2-user]# docker tag image1 daryal89/project20
+
+--
+[root@ip-172-31-87-19 ec2-user]# docker login
+Authenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+-------
+[root@ip-172-31-87-19 ec2-user]# docker push daryal89/project20
+Using default tag: latest
+The push refers to repository [docker.io/daryal89/project20]
+04bb09d92543: Pushed
+68a85fa9d77e: Mounted from library/ubuntu
+latest: digest: sha256:f1dbaa70bd9a02177147baa418993b29908829aed2d5c68fa978e418f75bf323 size: 736
+
+--------- TO PULL IMAGES FROM DOCKER HUB ---------------
+
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+image1            latest    192a7b850910   10 minutes ago   72.8MB
+ubuntu            latest    2b4cba85892a   42 minutes ago   72.8MB
+jenkins/jenkins   latest    8abb1f037d12   2 days ago       463MB
+
+[root@ip-172-31-87-19 ec2-user]# docker pull daryal89/project20
+Using default tag: latest
+latest: Pulling from daryal89/project20
+Digest: sha256:f1dbaa70bd9a02177147baa418993b29908829aed2d5c68fa978e418f75bf323
+Status: Downloaded newer image for daryal89/project20:latest
+docker.io/daryal89/project20:latest
+------
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY           TAG       IMAGE ID       CREATED          SIZE
+daryal89/project20   latest    192a7b850910   11 minutes ago   72.8MB
+image1               latest    192a7b850910   11 minutes ago   72.8MB
+ubuntu               latest    2b4cba85892a   43 minutes ago   72.8MB
+jenkins/jenkins      latest    8abb1f037d12   2 days ago       463MB
+_________________________________________________________________
+
+-------- SOME ADDITIONAL COMMANDS  ------------------------
+
+[root@ip-172-31-87-19 ec2-user]# docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS              PORTS                                                  NAMES
+e90b1b25141f   ubuntu            "/bin/bash"              58 seconds ago       Up 5 seconds                                                               container4
+fe5d5f975266   ubuntu            "/bin/bash"              About a minute ago   Up 12 seconds                                                              container3
+279e9bdea3f1   ubuntu            "/bin/bash"              About a minute ago   Up 25 seconds                                                              container2
+c2f0c424a625   ubuntu            "/bin/bash"              19 minutes ago       Up About a minute                                                          container1
+40f880f998d6   jenkins/jenkins   "/sbin/tini -- /usr/…"   43 minutes ago       Up 43 minutes       0.0.0.0:8080->8080/tcp, :::8080->8080/tcp, 50000/tcp   myjenkins
+-----
+[root@ip-172-31-87-19 ec2-user]# docker stop $(docker ps -a -q)
+e90b1b25141f
+fe5d5f975266
+279e9bdea3f1
+c2f0c424a625
+40f880f998d6
+----
+[root@ip-172-31-87-19 ec2-user]# docker rm $(docker ps -a -q)
+e90b1b25141f
+fe5d5f975266
+279e9bdea3f1
+c2f0c424a625
+40f880f998d6
+
+[root@ip-172-31-87-19 ec2-user]# docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+---------
+[root@ip-172-31-87-19 ec2-user]# docker rmi -f $(docker images -q)
+
+[root@ip-172-31-87-19 ec2-user]# docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+
+____________________________________ END_______________________________
+

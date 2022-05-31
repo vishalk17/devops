@@ -1,0 +1,906 @@
+
+Lecture: 23/24  What is Docker? Docker Architecture & Container
+---------------------------------------------------------------
+
+- In AWS EC2 instance creation: Step 3: Configure Instance Details --> Advanced Details -->User data section fill the following in Optional section:
+#!/bin/bash
+sudo su
+yum update -y
+
+Docker is an open source centralized platform designed to create, deploy and run applications. Docker uses container on the host O.S. to run applications. It allows applications to use the same linux kernel as a System on the host computer, rather than creating a whole virtual O.S.
+Docker is a tool that performs OS level vertualization, also known as containerization. Docker written in 'go' language.
+Docker is a set of Platform as a Service that uses OS level virtualisaton whereas VMware uses Hardware level Virtualisation.
+---------------
+Lecture:25
+
+Advantages of Dockers:
+- No pre-alloation of RAM
+- CI efficiency --> Docker enables you to build a container image and use that same image across every step of the deployment process.
+- Less cost
+- It is light in weight
+- It can run on physial HW/virtual HW or on Cloud
+- you can re-use the image
+- It took very less time to create container.
+
+Disadvantages:
+- Docker is not a good solution for application that requires rich rich GUI.
+- Difficult to manage large amount of conatiners.
+- Docker does not provide cross-platform compatibility means if an applidation is designed to run in a docker conatainer on windows, then it can't run on linux or vice-versa
+- Docker is suitable when the development OA and testing OS are same if the os is different, we should use VM.
+
+Docker Architecture:
+Docker Ecosystem:(Set of s/w or packages)
+
+Components of Docker:   
+Docker Daemon/Server/Docker engine:
+- Docker daemon runs on the Host OS. 
+- It is responsible for running containers to manages docker services.
+- Docker Daemon can communicate with other daemons.
+
+Docker client:
+Docker users can interact with docker daemon through a client.
+- Docker client uses commands and rest API to communicate with the docker daemon.
+- When a client runs any server command on the docker client terminal, the client terminal sends these docker commands to the docker daemon.
+- It is possible for docker client to communicate with more than one daemon.
+
+	Docker Host:
+Docker host is used to provide an environment to execute and run applications. It contains the docker daemonn, immages, containers, networks and storages.
+ 
+ 	Docker Hub/Registry:
+Docker registry manages and stores the docker images.
+There are two types of registries in the docker
+i. Public Registry: Public registry is also called as docker hub.
+ii. Private Registry: It is used to share images within the enterprise.
+
+	Docker Images:
+- Docker images are the read only binary templates used to create docker containers. or
+- Single file with all dependencies and configuration required to run a program.
+
+	Ways to create an Images
+1. Take image from docker hub
+2. Create image from docker file
+3. Create image from existing docker containers.
+
+Docker Container:
+- Container hold the entire packages that is needed to run the application.
+In other words, we can say that the image is a template and the container is a copy of that template.
+- Container is like a virtual machine.
+- Images becomes container when they run on docker engine.
+Image  ---> Run ---> Container.
+____________________________________________________
+
+Lecture:26 Basic Commands in Docker
+
+Login into EC2 machine
+login as: ec2-user
+
+Change the user as root
+[ec2-user@ip-172-31-87-164 ~]$ sudo su
+
+Update the machine
+[root@ip-172-31-87-164 ec2-user]# yum update  -y
+
+To install docker in your local machine
+[root@ip-172-31-87-164 ec2-user]# yum install docker -y
+
+To check whether docker is installed or not
+[root@ip-172-31-87-164 ec2-user]# which docker
+/bin/docker
+
+To check the version of docker
+[root@ip-172-31-87-164 ec2-user]# docker --version or docker -v or docker version
+Docker version 20.10.7, build f0df350
+
+To see all images present in your local machine
+[root@ip-172-31-87-164 ec2-user]# docker images
+
+To findout images in docker hub (by ubuntu, jenkins)
+[root@ip-172-31-87-164 ec2-user]# docker search ubuntu
+[root@ip-172-31-87-164 ec2-user]# docker search jenkins
+
+To download image (ubuntu) from dockerhub to local machine
+[root@ip-172-31-87-164 ec2-user]# docker pull ubuntu
+
+To run docker image (ubuntu) in local machine
+[root@ip-172-31-87-164 ec2-user]# docker run -it ubuntu /bin/bash
+
+To give name to conatiner (-i--> interactive mode, t -->terminal)
+[root@ip-172-31-87-164 ec2-user]# docker run -it --name dhrubaaryal ubuntu /bin/bash
+
+To check service is start or not
+[root@ip-172-31-87-164 ec2-user]# service docker status
+
+To check service status we can also use
+[root@ip-172-31-87-164 ec2-user]# docker info
+
+To start Docker
+[root@ip-172-31-87-164 ec2-user]# service docker start 
+
+To go inside container 
+[root@ip-172-31-87-164 ec2-user]# docker attach dhrubaaryal
+
+To see all containers
+[root@ip-172-31-87-164 ec2-user]# docker ps -a
+
+To see only running containers (ps --> process status)
+[root@ip-172-31-87-164 ec2-user]# docker ps
+
+To start the stopped container
+[root@ip-172-31-87-164 ec2-user]# docker start dhrubaaryal
+
+To stop docker container
+[root@ip-172-31-87-164 ec2-user]# docker stop dhrubaaryal
+
+To delete container (you need to stop container before you delete)
+[root@ip-172-31-87-164 ec2-user]# docker rm dhrubaaryal
+
+To force delete container (To delete running container)
+[root@ip-172-31-87-164 ec2-user]# docker rm -f dhrubaaryal
+
+To come out of container
+root@73f46acbfa05:/# exit
+----------
+To check the OS inside the container
+root@73f46acbfa05:/# cat /etc/os-release 
+Output:
+NAME="Ubuntu"
+VERSION="20.04.3 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.3 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+------------
+To check docker images
+[root@ip-172-31-87-164 ec2-user]# docker images
+Output:
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+ubuntu       latest    54c9d81cbb44   3 days ago   72.8MB
+
+_______________________________________________________
+
+Lecture:27 Dockerfile Components and diff command
+
+- Login into AWS account and start your EC2 instance Access it from putty
+- Now we have to create container from our own image
+Therefore, Create one Container first
+- docker run -it --name dhrubacontainer ubuntu /bin/bash
+- cd  tmp/
+Now create one file inside this tmp directory
+- touch myfile
+Now if you want to see the difference between the base image and changes on it then
+- docker diff dhrubacontainer
+output: 
+C /root  (C= Change) 
+A /root/.bash-history  (A = Append or Addition)
+C /tmp  (C =change)
+A /tmp/myfile  (A = Addition)
+D  (D =Deletion)
+
+To create image from existing container
+- docker commit <containername>   <Imagename> 
+- docker images
+ 
+To create container from the created image
+- docker run -it --name aryalcontainer updateimage /bin/bash
+root@cid# ls
+root@cid # cd tmp/
+tmp # ls
+output:
+myfile  {you will get all files back}
+-------------
+LAB:
+[root@ip-172-31-91-214 ec2-user]# docker run -it --name container3 ubuntu /bin/bash
+
+root@31140ccac15e:/# cd tmp
+
+root@31140ccac15e:/tmp# touch myfile myfile1
+
+root@31140ccac15e:/tmp# exit
+
+[root@ip-172-31-91-214 ec2-user]# docker diff container3
+C /root
+A /root/.bash_history
+C /tmp
+A /tmp/myfile
+A /tmp/myfile1
+---------------------------------------------------
+
+Dockerfile
+Dockerfile is basically a text file. it contains some set of instructions. Automation of Docker image creation.
+____________________________________________________
+
+Dockerfile: Steps to create and run dockerfile
+
+1. Create a file named Dockerfile
+2. Add instructions in Dockerfile
+3. Build dockerfile to create image
+4. Run image to create container
+------------------------------
+1. Create a file named Dockerfile
+[root@ip-172-31-87-164 ec2-user]# vi Dockerfile
+
+2. Add instructions in Dockerfile
+FROM ubuntu (version if you want to give)
+RUN echo "Technical Guftgu" >/tmp/testfile
+:wq
+
+3. Build dockerfile to create image
+To Create image out of Dockerfile
+[root@ip-172-31-87-164 ec2-user]# docker build -t test .
+Output:
+Step 1/2 : FROM ubuntu
+ ---> 54c9d81cbb44
+Step 2/2 : RUN echo "subscribe technical guftgu" >/tmp/testfile
+ ---> Running in df10598428a4
+
+docker ps -a
+docker images
+
+4. Run image to create container
+Now, Create container from the above image
+[root@ip-172-31-87-164 ec2-user]# docker run -it --name testcontainer test /bin/bash
+
+Output:
+root@9dccbe5dc007:/#
+
+To check whether testfile is created on tmp directory or not
+root@9dccbe5dc007:/# cd tmp
+root@9dccbe5dc007:/tmp# ls
+
+Output:
+testfile
+
+root@9dccbe5dc007:/tmp# cat testfile
+output:
+subscribe technical guftgu
+
+------------------------------  DOCKERFILE LAB   -------------------
+
+[root@ip-172-31-91-214 ec2-user]# vi Dockerfile
+
+write the following lines of code inside the Dockerfile:
+FROM ubuntu
+RUN echo "Technical guftgu" >/tmp/testfile
+:wq
+
+[root@ip-172-31-91-214 ec2-user]# docker build -t test .
+
+Sending build context to Docker daemon  9.728kB
+Step 1/2 : FROM ubuntu
+ ---> 54c9d81cbb44
+Step 2/2 : RUN echo "Technical guftgu" >/tmp/testfile
+ ---> Running in d8ae23d204b0
+Removing intermediate container d8ae23d204b0
+ ---> 550548f979bb
+Successfully built 550548f979bb
+Successfully tagged test:latest
+
+[root@ip-172-31-91-214 ec2-user]# docker run -it --name testcontainer test /bin/bash
+
+root@be864495a180:/# cd tmp
+
+root@be864495a180:/tmp# ls
+testfile
+
+root@be864495a180:/tmp# cat testfile
+Technical guftgu
+
+---------------------------------
+Create another Dockerfile
+FROM ubuntu
+WORKDIR /tmp
+RUN echo "LIKE SUBSCRIBE MY CHANNEL" > /tmp/testfile
+ENV myname dhrubaaryal
+COPY testfile1 /tmp
+ADD test.tar.gz /tmp
+-------
+[root@ip-172-31-87-164 ec2-user]# vi Dockerfile
+[root@ip-172-31-87-164 ec2-user]# touch testfile1
+[root@ip-172-31-87-164 ec2-user]# touch test
+[root@ip-172-31-87-164 ec2-user]# tar -cvf test.tar test
+
+[root@ip-172-31-87-164 ec2-user]# ls
+Dockerfile  test  testfile1  test.tar
+
+[root@ip-172-31-87-164 ec2-user]# gzip test.tar
+
+[root@ip-172-31-87-164 ec2-user]# rm -rf test
+
+[root@ip-172-31-87-164 ec2-user]# docker build -t newimage .
+
+Output:
+Sending build context to Docker daemon  9.216kB
+Step 1/6 : FROM ubuntu
+ ---> 54c9d81cbb44
+Step 2/6 : WORKDIR /tmp
+ ---> Running in 162d06e68e28
+Removing intermediate container 162d06e68e28
+ ---> 835990d7abd5
+Step 3/6 : RUN echo "LIKE SUBSCRIBE MY CHANNEL" > /tmp/testfile
+ ---> Running in 94c55eddc123
+Removing intermediate container 94c55eddc123
+ ---> 3d249a445d22
+Step 4/6 : ENV myname dhrubaaryal
+ ---> Running in 2751e5a93a89
+Removing intermediate container 2751e5a93a89
+ ---> 7107d579b6e0
+Step 5/6 : COPY testfile1 /tmp
+ ---> f4b1367e8b75
+Step 6/6 : ADD test.tar.gz /tmp
+ ---> 98232a3f8c71
+Successfully built 98232a3f8c71
+Successfully tagged newimage:latest
+
+[root@ip-172-31-87-164 ec2-user]# docker run -it --name newcontainer newimage /bin/bash
+
+Output:
+root@72e421644379:/tmp#
+
+root@72e421644379:/tmp# ls
+test  testfile  testfile1
+
+root@72e421644379:/tmp# ls
+test  testfile  testfile1
+
+root@72e421644379:/tmp# cat testfile
+LIKE SUBSCRIBE MY CHANNEL
+
+root@72e421644379:/tmp# echo $myname
+dhrubaaryal
+
+Google some dockerfile from internet and run in your machine
+
+_____________________________________________________________________
+
+
+Lecture 28: How to create Docker volume & How to Share it.
+
+Dockerfile --> Image --> container -->volume (Create an volume in container)
+
+- You can share volume container to container
+- You can share volume host to container
+
+- Volume is simply a directory inside our container.
+- Firstly, we have to declare this directory as a volume and then share volume
+- Even if we stop container, still we can access volume
+- Volume will be created in one container
+- You can declare a directroy as a volume only while creating container
+- You can't create volume from existing container
+- You can share one volume across any number of containers.
+- Volume will not be included when you update an image
+
+You can Mapped volume in two ways
+1. Container <----> Container
+2. Host  <----> Container
+----------------
+Benefit of Volume
+- Decoupling Container from Storage
+- Share volume among different Container
+- Attach volume to containers
+- On deleting container volume does not delete.
+
+---------------   CREATE VOLUME USING DOCKER FILE: LAB  ----------------
+
+Creating a Dockerfile an write
+[root@ip-172-31-31-99 ec2-user]# vi Dockerfile
+FROM ubuntu
+VOLUME ["/myvolume"]
+
+:wq
+
+Then create image from this dockerfile
+
+[root@ip-172-31-31-99 ec2-user]# docker
+ build -t myimage .
+Sending build context to Docker daemon   7.68kB
+Step 1/2 : FROM ubuntu
+latest: Pulling from library/ubuntu
+08c01a0ec47e: Pull complete
+Digest: sha256:669e010b58baf5beb2836b253c1fd5768333f0d1dbcb834f7c07a4dc93f474be
+Status: Downloaded newer image for ubuntu:latest
+ ---> 54c9d81cbb44
+Step 2/2 : VOLUME ["/myvolume"]
+ ---> Running in f3f824546bce
+
+[root@ip-172-31-31-99 ec2-user]# docker images
+REPOSITORY   TAG       IMAGE ID       CREATED              SIZE
+myimage      latest    0d3d2bb59cdb   About a minute ago   72.8MB
+ubuntu       latest    54c9d81cbb44   4 days ago           72.8MB
+
+Now create a container from this image and Run
+[root@ip-172-31-31-99 ec2-user]# docker run -it --name container1 myimage /bin/bash
+root@588d058bf890:/#
+
+Now do ls, you can see myvolume1
+root@588d058bf890:/# ls
+bin   dev  home  lib32  libx32  mnt       opt   root  sbin  sys  usr
+boot  etc  lib   lib64  media   myvolume  proc  run   srv   tmp  var
+
+root@588d058bf890:/# cd myvolume
+root@588d058bf890:/myvolume# touch file1 file2 file3
+root@588d058bf890:/myvolume# ls
+file1  file2  file3
+
+------------------- SHARING VOLUME WITH ANOTHER CONTAINERS   ------------
+
+Now share volume with another container 
+[root@ip-172-31-31-99 ec2-user]# docker run -it --name container2 --privileged=true --volumes-from container1 ubuntu /bin/bash
+root@d14ba7b66c90:/#
+
+1. Container <-----> Container
+
+Now after creating container2, myvolume1 is visible whatever you do in one volume, Can see from other volume
+root@d14ba7b66c90:/# cd myvolume
+root@d14ba7b66c90:/myvolume# ls
+file1  file2  file3
+
+[root@ip-172-31-31-99 ec2-user]# touch /myvolume1/samplefile
+
+[root@ip-172-31-31-99 ec2-user]# docker start container1
+
+[root@ip-172-31-31-99 ec2-user]# doker attach container1
+
+root@588d058bf890:/# ls
+
+root@588d058bf890:/# cd myvolume
+
+root@588d058bf890:/myvolume# ls
+file1  file2  file3  file4  filex  filey  filez
+
+exit
+
+----------------------  Create volume by using command   ------------------
+
+Create a volume volume2
+
+[root@ip-172-31-31-99 ec2-user]# docker run -it --name container3 -v /volume2 ubuntu /bin/bash
+
+root@ee02f2644efc:/# ls
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr  volume2
+
+root@ee02f2644efc:/# cd volume2
+
+Now create files vol1 vol2 vol3 and exit
+root@ee02f2644efc:/volume2# touch vol1 vol2 vol3
+
+root@ee02f2644efc:/volume2# ls
+vol1  vol2  vol3
+
+root@ee02f2644efc:/volume2# exit
+exit
+
+now create one more container, and share volume2
+[root@ip-172-31-31-99 ec2-user]# docker run -it --name container4 --privileged=true --volumes-from container3 ubuntu /bin/bash
+
+root@3717021ecbbe:/# 
+
+Now you are inside container4, do ls, you can see volume2
+Now create one file inside this volume and then check in container3, you can see that file.
+
+root@3717021ecbbe:/# ls
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr  volume2
+
+root@3717021ecbbe:/# cd volume2
+
+root@3717021ecbbe:/volume2# ls
+vol1  vol2  vol3
+
+root@3717021ecbbe:/volume2# touch myfile
+
+root@3717021ecbbe:/volume2# ls
+myfile  vol1  vol2  vol3
+
+------------  DOCKER VOLUMES (HOST <--> CONTAINER) -----------------------
+ 
+Volumes (Host - container)
+- Verify files in  /home/ec2-user
+[ec2-user@ip-172-31-31-99 ~]$ ls
+Dockerfile  file1  file2
+
+- Create and run a docker container 
+[root@ip-172-31-31-99 ec2-user]# docker run -it --name  hostcont -v /home/ec2-user:/rajput --privileged=true ubuntu /bin/bash
+root@7f3948e372d4:/#
+
+root@7f3948e372d4:/# ls
+bin   dev  home  lib32  libx32  mnt  proc    root  sbin  sys  usr
+boot  etc  lib   lib64  media   opt  rajput  run   srv   tmp  var
+
+root@7f3948e372d4:/# cd rajput
+
+Do ls, now you can see all files of host machine
+root@7f3948e372d4:/rajput# ls
+Dockerfile  file1  file2 
+
+Create some files in rajput directory
+root@7f3948e372d4:/rajput# touch filex filey filez
+
+Exit from the container
+root@7f3948e372d4:/rajput# exit
+
+Now check in EC2 machine, you can see this file in host machines
+[root@ip-172-31-31-99 ec2-user]# ls
+Dockerfile  file1  file2  filex  filey  filez
+-------------------------------
+Some other commands
+
+- docker volume ls
+- docker volume create <volumename>
+- docker volume rm <volumename>
+- docker volume prune (It removed all unused docker volume)
+- docker volume inspect <volumename>
+- docker container inspect <ContainerName>
+_____________________________________________________________
+
+Lecture: 29 Docker port Expose
+
+- Docker version 20.10.7, build f0df350
+- To install apache in linux OS --> yum install httpd -y
+- To install apache in ubuntu OS --> apt-get apache2 -y
+- PID ---> process id
+- PPID ---> parent process id
+
+- logical ports ranges from 0 to 65535.
+- SSH default port number - 22
+- http default port number - 80
+- https default port number - 443
+- POP3 (mail receive) default port number - 110
+- MYSQL default port number - 3306
+
+----------------------   DOCKER PORT  -------------------------
+
+- Login to AWS account Create one linux instance
+	Now go to putty -> login as ec2-user
+
+- sudo su
+- yum update -y
+- yum install docker -y
+- service docker start
+- docker run -td --name techserver -p 80:80 ubuntu  (d --> daemon)
+- docker ps
+- docker port techserver
+	o/p --> 80/TCP -> 0:0:0:/80
+- docker exec -it techserver /bin/bash
+- apt-get update
+- apt-get install apache2 -y
+- cd /var/www/html
+- echo "Subscribe Tech guftgu" > index.html
+- service apache2 start
+
+Now you can paste the public ip of the ec2 machine and you can see the content written in index.html
+
+-----------------------------------------------
+Difference between docker attach and docker exec
+- Docker exec creates a new process in the container's environment while docker attach just connect the standard input/output of the main process inside the container to corresponding standard input/output error of current terminal
+- Docker exec is specifically for running new thigs in a already stated container, be it a shell or some other process
+
+What is the difference between expose and publish a docker?
+- Basically you have three options:
+1. Neither specify expose nor -p:
+2. Only specify expose
+3. Specify expose and -p
+
+1. Neither specify expose nor -p: the service is in the container will only be accessible from inside the container itself.
+2. Only specify expose: If you expose a port, the service in the container is not accessible from outside docker, but from inside other docker containers, so this is good for inter-container communication.
+3. Specify expose and -p: If you expose and -p a port, the service in the container is accessible from anywhere, even outside docker.
+- If you do -p but do not expose docker does an implicit expose. This is because, if a port is open to the public, it is automatically also open to the other docker containers. Hence '-p' includes expose.
+
+----------------------   DOCKER PORT LAB -------------------------
+
+[root@ip-172-31-31-99 ec2-user]# docker run -td --name techserver -p 80:80 ubuntu
+[root@ip-172-31-31-99 ec2-user]# docker ps
+
+[root@ip-172-31-31-99 ec2-user]# docker port techserver
+80/tcp -> 0.0.0.0:80
+80/tcp -> :::80
+
+Go inside the container
+[root@ip-172-31-31-99 ec2-user]# docker exec -it techserver /bin/bash
+
+update and install apache2 service
+root@70d44ed973db:/# apt-get update
+root@70d44ed973db:/# apt-get install apache2 -y
+
+root@e21abd96dec9:/# cd /var/www/html/
+
+root@e21abd96dec9:/var/www/html# echo "Subscribe Technical Guftgu Channel"> index.html
+
+root@e21abd96dec9:/var/www/html# service apache2 restart
+
+Now paste public ip of the EC2 machine in webbrowser
+http://3.82.222.193/  ---> Subscribe Technical Guftgu Channel
+
+--------------------- For Accessing jenkins on URL ------------------
+ 
+- [root@ip-172-31-25-113 ec2-user]# docker run -td --name myjenkins -p 8080:8080 jenkins/jenkins:lts
+
+- [root@ip-172-31-25-113 ec2-user]# docker exec -it myjenkins /bin/bash
+
+- jenkins@c1686e7d12a5:/$ ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+
+- jenkins@c1686e7d12a5:/$ cd var
+
+- jenkins@c1686e7d12a5:/var$ ls
+backups  jenkins_home  local  log   opt  spool
+cache    lib           lock   mail  run  tmp
+
+jenkins@c1686e7d12a5:/var$ cd jenkins_home
+
+jenkins@c1686e7d12a5:~$ ls
+config.xml                        secret.key
+copy_reference_file.log           secret.key.not-so-secret
+hudson.model.UpdateCenter.xml     secrets
+identity.key.enc                  tini_pub.gpg
+jenkins.telemetry.Correlator.xml  updates
+jobs                              userContent
+nodeMonitors.xml                  users
+nodes                             war
+plugins
+
+
+- jenkins@c1686e7d12a5:~$ cd secrets
+
+jenkins@c1686e7d12a5:~/secrets$ ls
+initialAdminPassword
+jenkins.model.Jenkins.crumbSalt
+master.key
+org.jenkinsci.main.modules.instance_identity.InstanceIdentity.KEY
+
+- jenkins@c1686e7d12a5:~/secrets$ cat initialAdminPassword
+
+	9975a204c3f44aec9c3027421f664cdb
+
+- Now you can paste the publicip:8080 in browser and it will open jenkins homepage and you can paste the iniitalAdminPassword in it and start working on Jenkins.
+
+Type in webbrowser ec2 machine public ip, it will open jenkins page.
+http://172-31-25-113:8080
+_______________________________________________________
+
+Lecture 30: How to Push docker image in dockerhub
+
+https://hub.docker.com/
+U: daryal89
+P: Reyona123
+-----------
+docker pull dockerID/imageName  -- To pull the image from docker hub
+
+---------------- PUSH DOCKER IMAGE IN DOCKERHUB -----------------
+
+- Go to AWS account -> Select Amazon linux 
+- Now got o putty ->Login as ec2-user
+- sudo su
+- yum update -y
+- yum install docker -y
+- service docker start
+- docker run -it ubuntu /bin/bash
+Now create some files inside container
+Now create image of this container
+- docker commit <containerName>  <imageName>
+Now create ccount in hub.docker.com
+Now go to EC2 instance
+- docker login
+	enter your username and password
+Now give tag go your image
+- docker tag <imageName> dockerid/<newImageName>
+- docker push dockerid/<newImageName>
+- Now you can see this image in docker hub account
+
+Now create one instance in tokyo region and pull image from hub
+- Go to AWS account -> Select Amazon linux 
+- Now got o putty ->Login as ec2-user
+- sudo su
+- yum update -y
+- yum install docker -y
+- service docker start
+- docker pull dockerid/<newImageName>
+- docker run -it --name mycon dockerid/<newImageName> /bin/bash
+
+Some Important commands
+1. Stop all running containers: docker stop $(docker ps -a -q)
+2. Delete all stopped containers: docker rm $(docker ps -a -q)
+3.Delete all containers even running containers: docker rm  -f $(docker ps -a -q)
+3. Delete all images: docker rmi -f $(docker images -q)
+
+____________________________________________________________________
+
+--------------- DOCKER LAB SECTION  -------------------------
+login as: ec2-user
+
+[root@ip-172-31-92-27 ec2-user]# sudo su
+
+[root@ip-172-31-92-27 ec2-user]# service docker status
+
+[root@ip-172-31-92-27 ec2-user]# service docker start
+Redirecting to /bin/systemctl start docker.service
+
+[root@ip-172-31-92-27 ec2-user]# docker login
+
+Username: daryal89
+Password:
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+[root@ip-172-31-92-27 ec2-user]# docker tag image1 daryal89/project1
+
+To push image in docker hub
+[root@ip-172-31-92-27 ec2-user]# docker push daryal89/project1
+------------------------
+To pull the image from docker hub following steps needs to be performed:
+
+- Go to AWS account -> Select Amazon linux 
+- Then go to putty 
+- login as: ec2-user
+
+[ec2-user@ip-172-31-15-13 ~]$ sudo su
+
+[root@ip-172-31-15-13 ec2-user]# yum update -y
+
+[root@ip-172-31-15-13 ec2-user]# yum install docker -y
+
+
+[root@ip-172-31-15-13 ec2-user]# service docker start
+
+[root@ip-172-31-15-13 ec2-user]# docker images
+
+[root@ip-172-31-15-13 ec2-user]# docker login
+
+Username: daryal89
+Password:
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+[root@ip-172-31-15-13 ec2-user]# docker pull daryal89/project1
+
+Using default tag: latest
+latest: Pulling from daryal89/project1
+08c01a0ec47e: Pull complete
+11b40d6c7bc6: Pull complete
+Digest: sha256:73f3f44b918fb28a5574f2fef129836465150b8d632d72d54142d2b424c8ad64
+Status: Downloaded newer image for daryal89/project1:latest
+docker.io/daryal89/project1:latest
+
+[root@ip-172-31-15-13 ec2-user]# docker images
+
+REPOSITORY          TAG       IMAGE ID       CREATED             SIZE
+daryal89/project1   latest    f21f025f6cc0   About an hour ago   72.8MB
+
+[root@ip-172-31-15-13 ec2-user]# docker run -it --name mycontainer daryal89/project1 /bin/bash
+root@17da86b5d36e:/#
+
+root@17da86b5d36e:/# ls
+bin   etc    filex  lib    libx32  opt   run   sys    tmp
+boot  file1  filez  lib32  media   proc  sbin  test1  usr
+dev   file2  home   lib64  mnt     root  srv   test2  var
+
+root@17da86b5d36e:/# cd tmp
+root@17da86b5d36e:/tmp# ls
+filea  fileb  filec
+
+[root@ip-172-31-15-13 ec2-user]# docker images
+REPOSITORY          TAG       IMAGE ID       CREATED             SIZE
+daryal89/project1   latest    f21f025f6cc0   About an hour ago   72.8MB
+
+
+[root@ip-172-31-15-13 ec2-user]# docker rmi -f $(docker images -q)
+
+[root@ip-172-31-15-13 ec2-user]# docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+
+- No images are found
+_________________________________
+
+Docker commands
+
+    1  yum update -y
+    2  yum install docker -y
+    3  which docker
+    5  docker -v
+    6  docker --version
+    7  service docker status
+    8  docker info
+    9  service docker start
+   13  docker images
+   14  docker ps
+   15  docker ps -a
+   16  docker run -it ubuntu/bin/bash
+   19  docker search ubuntu
+   20  docker pull ubuntu
+   21  docker run -it ubuntu /bin/bash
+   27  docker run -it centos /bin/bash
+   29  docker run -i -t centos /bin/bash
+   34  docker pull chef/chefdk
+   35  docker pull jenkins/jenkins:lts
+   37  docker run -it chef/chefdk /bin/bash
+   39  which jenkins/jenkins
+   41  docker search jenkins
+   42  docker run -it --name dhrubaaryal ubuntu /bin/bash
+   43  docker ps -a
+   45  docker ps
+   46  docker start pensive_torvalds
+   48  docker start dhrubaaryal
+   49  docker attach dhrubaaryal
+   50  docker stop dhrubaaryal
+   51  docker ps -a
+   52  docker rm dhrubaaryal
+ 
+--------------------------------------------------------------
+   74  docker run --name dhrubacontainer -it ubuntu /bin/bash
+   75  docker diff dhrubacontainer
+   77  docker commit dhrubacontainer updateimage
+   79  docker run -it --name aryalcontainer updateimage /bin/bash
+   82  docker build -t test .
+   83  docker run -it --name testcontainer test /bin/bash
+   84  vi Dockerfile
+   85  touch testfile1
+   87  touch test
+   89  tar -cvf test.tar test
+   91  gzip test.tar
+   93  rm -rf test
+   95  docker build -t newimage .
+   97  docker run -it --name newcontainer newimage /bin/bash
+  102  docker run -it --name container3 -v/volume2 ubuntu /bin/bash
+  103  docker run -it --name container4 --privileged=true --volumes-from container3 ubuntu bin/bash
+  104  docker start container3
+  105  docker attach container3
+  106  docker run -it --name container5 --privileged=true --volumes-from container4 ubuntu bin/bash
+  107  docker start container3
+  108  docker attach container3
+  114  pwd
+  115  cd ..
+  121  docker run -it --name hostcontainer -v /home/ec2-user:/aryal --privileged=true ubuntu /bin/bash
+  123  docker start hostcontainer
+  124  docker attach hostcontainer
+
+------------------------------------------------
+Lecture: 29 Docker port Expose
+
+    1  yum update -y
+    2  yum install docker -y
+    3  docker --version
+    4  docker -v
+    5  service docker start
+    6  docker run -td --techserver -p 80:80 ubuntu
+    7  docker ps
+    8  docker run -it ubuntu /bin/bash
+    9  docker ps
+   10  docker run -td --techserver -p 80:80 ubuntu
+   11  docker run -td --name techserver -p 80:80 ubuntu
+   12  docker ps
+   13  docker port techserver
+   14  docker exec -it techserver bin/bash
+   15  docker run -td --name myjenkins -p 8080:8080 jenkins
+   16  docker run -td --name myjenkins -p 8080:8080 jenkins/jenkins:lts
+   17  exit
+   18  history
+-------------------------------------------------------
+
+Lecture 30 how to push docker image in dockerhub
+    1  yum update -y
+    2  yum install docker -y
+    3  service docker start
+    4  docker images
+    5  docker pull daryal89/project1
+    6  docker images
+    7  docker run -it --name mycontainer daryal89/project1 /bin/bash
+    8  docker pull daryal89/project1
+    9  docker login
+   10  docker pull daryal89/project1
+   11  docker images
+   12  docker rmi -f $(docker images -q)
+   13  docker images
+________________________   END  ________________________________
