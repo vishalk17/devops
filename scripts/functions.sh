@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-# script to check memory usage in human readable form
-
 # server name
 servername=$(hostname)
 
