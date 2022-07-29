@@ -1,0 +1,19 @@
+
+
+Hello Sir/mam Good morning
+
+My name is xyz. I am devops engg. having work experience of 2 years in abc company.
+I have been working on multiple aws services like ec2-instances, s3, I am , efs.
+and 
+
+having some of core responsibilities as a devops engg. includes
+understanding customer requirements, projects implementing various deployment testing, automation tools and It infra. 
+planning team structure, activities and I have been involved in project management activites.
+
+manage stackholders and external interfaces.
+
+My daily tasks includes, setting up tools which require to enviroment., troubleshooting in technical and fix code bugs
+monitoring the process during entire life cycle, some of automation, co-ordination in teams and clients. 
+selecting and deploying CI/CD tools. managing the periodic reporting on the process and managing the customers calls.
+
+Thats all about my self.
