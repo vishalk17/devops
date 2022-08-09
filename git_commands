@@ -1,0 +1,79 @@
+
+
+## Authorship ##
+
+git config --global user.name user_name
+git config --global user.email	user_email_id
+
+git reset commit --amend --author=" user_name <user_email_id>" ... to set authorship of top commit
+###
+
+
+
+git init    				..to initialize git repo in local directory
+
+git add 				.. to add untrack files or files to add in staging state
+
+git status 				.. to check changed status of files which might be in staging, modified
+
+git commit				.. to commit/save existing changes with its description,commit msg
+
+git commit -m "commit msg"		.. to commit/save existing changes only with commit msg not with description
+
+git log					.. to check commit log history
+
+git log --oneline			.. to check commit log history in one online/just with commit msg
+
+git remote -v 				.. to view all remote repo url availble in local repo
+
+git remote add any_variable repo_url	.. to add remote repo on temp. basis.
+
+git fetch any_varible			.. to fetch remote repo which is stored in "any_variable"
+
+git branch				.. to check existing avialble branches
+
+git branch -a				.. to track remote and local branches
+
+git push -u any_variable branch_name	.. -u (to set default upstream remote repo with branch ),
+					    to push existing changes to remote repo in specified branch_name
+
+git push				.. to push existing changes in already set upstream branch and repo
+
+git push any_variable --all		.. to push all existing branches to remote repo url which is stored in any_variable
+
+git push -f				.. force push existing changes 
+					    (dont used it if anything goes wrong you will lose latest changes if remote repo was updated one)
+
+git pull				.. to pull/pick already existed changes of remote repo
+
+git checkout branch_name		.. to switch in another branch
+
+git branch new_branch_name		.. create new branch
+
+git checkout -b new_branch_name		.. to create and switch to new branch
+
+git branch -d branch_name		.. to delete any existing branch on local repo (dont use it,you will lose branch permanently with their code)
+
+git revert commit_hash			.. to revert changes of specified commit
+
+git cherry-pick commit_hash		.. to pick changes of specified commit
+
+git commit --amend		.. to edit existing commit msg/description
+					   also use to save changes after edit existing changes with the same commit description
+					   make sure you have that commit on the top.
+										
+git reset --hard			 .. discard all existing changes before commiting any changes
+
+git reset --hard commit_hash		 .. reset to the particular commit. or we can say we will have changes + history at that particular commit only
+					    also we will lose latest changes if you dont know the hash of latest commit.
+
+
+git clone repo_url			.. clone remote repo
+
+git clone repo_url /path/directory_name	.. clone remote repo in specific path with same or new name of the dirctory
+
+git clone repo_url -b branch_name	.. clone remote repo with specified branch
+
+git clone repo_url -b branch_name /path/directory_name	.. clone remote repo with specified branch in the path with same or new name of the directory
+
+git diff				.. to see changed state of the files (added/deleted/modified)
