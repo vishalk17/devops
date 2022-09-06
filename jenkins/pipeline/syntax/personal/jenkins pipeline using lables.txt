@@ -1,0 +1,16 @@
+pipeline {
+		agent {
+				label 'qa'
+		}
+		
+		stages {
+		
+			stage ('stage-1'){
+			
+			steps {
+			
+				echo " hello vishal"
+			}
+			}
+		}
+}

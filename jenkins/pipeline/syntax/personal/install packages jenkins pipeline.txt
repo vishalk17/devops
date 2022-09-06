@@ -1,0 +1,16 @@
+pipeline {
+		agent {
+				label 'qa'
+		}
+		
+		stages {
+		
+			stage ('install git'){
+			
+			steps {
+			
+				sh "sudo yum install git -y"
+			}
+			}
+		}
+}
