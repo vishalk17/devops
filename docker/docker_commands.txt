@@ -1,0 +1,14 @@
+systemctl start docker
+systemctl status docker
+docker -v 					                ...version
+docker pull image-name   	          .......pull image 
+docker pull image-name:tag_name     .... download specific image with tag
+doker images / docker image ls      .... to see images
+docker rmi image-name                ....to remove image
+docker rmi -f image-name              ....to remove image forcefully
+docker rmi image-name:tagname            ....to remove image with specific tag
+docker run image-name                   .. to run image
+docker ps					                  .. shows running container processes
+docker ps -a			                    - to show all running and stop container
+docker rm container_name  -         - delete container by name
+docker search image_name              .. to search image name on docker hub
