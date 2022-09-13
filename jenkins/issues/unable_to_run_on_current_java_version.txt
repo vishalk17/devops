@@ -1,0 +1,16 @@
+export custom (required java version) in .bash_profile  // I m using amz linux here
+
+for the jenkin version  i m currently using it requires java jdk 11 version, somehow java 1.8.x jdk is not
+working for me. thus i have given custom java path so that it will only pick java jdk 11 in case
+both java jdk 11 and java jdk 1.8.x installed
+
+
+note : i m deploying jenkins war on tomcat server 
+################################
+
+open , edit and save following line in .bash_profile
+
+########################
+
+
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk        #export java 11 path in .bash_profile  
