@@ -1,14 +1,44 @@
 systemctl start docker
 systemctl status docker
-docker -v 					                ...version
-docker pull image-name   	          .......pull image 
-docker pull image-name:tag_name     .... download specific image with tag
-doker images / docker image ls      .... to see images
-docker rmi image-name                ....to remove image
-docker rmi -f image-name              ....to remove image forcefully
-docker rmi image-name:tagname            ....to remove image with specific tag
-docker run image-name                   .. to run image
-docker ps					                  .. shows running container processes
-docker ps -a			                    - to show all running and stop container
-docker rm container_name  -         - delete container by name
-docker search image_name              .. to search image name on docker hub
+docker -v 					...version
+docker pull image-name   	.......pull image 
+docker pull image-name:tag_name   .... download specific image with tag
+doker images / docker image ls  . to see images
+docker rmi image-name  ....to remove image
+docker rmi -f image-name  ....to remove image forcefully
+docker rmi image-name:tagname  ....to remove image with specific tag
+docker run image-name     .. to run image
+docker ps					.. shows running container processes
+docker ps -a			- to show all running and stop container
+docker rm container_name  -- delete container by name
+docker search image_name   .. to search image name on docker hub
+........
+
+systemctl start docker
+docker pull ubuntu
+docker images
+docker start container_id
+docker ps -a
+docker stop container_id
+docker kill container_id
+-----
+docker run -it ubuntu bash
+
+-i interactive
+-t terminal
+
+--------------
+
+docker attach container_id  .... to re-enter in container
+
+docker attach container_id:tag_name  .... to re-enter in specific container by tag
+
+ctrl + p + q   ... to comeback from container
+docker stats		.. to see how much ram and cpu usage by tag
+
+docker info  ..all related info about docker
+docker inspect container_id  
+docker inspect container_id | grep IPAddress
+docker system prune -a -f  .. delete all container
+docker logs container_id   ... to see logs of container
+
