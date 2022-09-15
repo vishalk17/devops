@@ -41,4 +41,38 @@ docker inspect container_id
 docker inspect container_id | grep IPAddress
 docker system prune -a -f  .. delete all container
 docker logs container_id   ... to see logs of container
+......................
+
+docker run -itd centos:8 ping localhost  ... run container in background
+										-d : detach mode
+
+docker exec -it container_id bash   ... execute extra commands in same container
+docker run -it --name any_name centos:8 bash .. give any name to the container
+docker rename container_id any_name  : rename any container_name
+#########
+
+** make image from container
+
+docker commit container_id docker_username/new_name:new_tag  .. new image with custom name and tag
+
+** push to docker hub
+
+docker login
+docker push vishalk17/ubuntu01:01   -- to push on docker 
+................
+
+docker pull httpd
+docker run -itd httpd
+docker exec -it container_id bash
+docker stats
+docker run -itdp (ec2 port)80:80(container port) httpd   .....bind host and container port
+........
+
+how to copy in container
+
+
+docker cp /file/path/file_name container_id:/location/   .. from host to container
+
+docker container_id:/location/file_name /location/on/host_os/ 		from container to host os
+
 
