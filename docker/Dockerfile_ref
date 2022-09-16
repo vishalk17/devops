@@ -1,0 +1,34 @@
+file name should be Dockerfile
+
+******** docker file start ************
+
+FROM :- from which base image
+
+RUN :- while image creation whcih commands you want to execute
+
+MAINTAINER :- author or description (not mandatory)
+
+COPY :- copy files from local machine to image 
+
+ADD : similar to copy, additionally
+
+EXPOSE :-  to expose port
+
+WORK DIR :- set a working space
+
+CMD :- execute command but during container creation
+
+ENTRY POINT :- similar to cmd but has high priority. 
+				- one entry point in docker files				
+
+ENV : enviroment variable set with the help of cmd
+
+############
+
+docker build -t new_image_name:new_tag_name Dockerfile
+
+FROM ubuntu:18.04
+RUN apt-get update -y
+
+###########
+******** docker file end ************
