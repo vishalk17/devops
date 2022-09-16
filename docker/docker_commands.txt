@@ -75,4 +75,20 @@ docker cp /file/path/file_name container_id:/location/   .. from host to contain
 
 docker container_id:/location/file_name /location/on/host_os/ 		from container to host os
 
+##################################### volumes ################\
+
+docker volume create volume_name		create volume
+docker volume ls		... see list of volumes
+docker volume rm volume_name		remove volume
+docker volume inspect volume_name   ... detail about volume
+docker volume prune
+docker run -itdp 80:80 -v volume_name image_name
+	
+		-v = volume
+		
+docker run --name ubuntu1 -itdv volume1/data ubuntu:18.04
+
+########## bind mount ######
+
+docker run --name ubuntu-1 -itdv (ec2/path)/mnt:/data(cont/path) ubuntu:18.04
 
