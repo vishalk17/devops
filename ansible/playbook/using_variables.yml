@@ -1,0 +1,13 @@
+--- # my task,variable & target playbook
+- hosts: dev
+  user: ansible
+  become: yes
+  connection: ssh
+  #  gather_facts: yes
+
+  vars:
+    pkgn: httpd
+
+  tasks:
+    - name: Install '{{pkgn}}'
+      action: yum name='{{pkgn}}' state=present
