@@ -1,0 +1,9 @@
+--- # my task & target playbook
+- hosts: dev
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: yes
+  tasks:
+    - name: Install HTTPD
+      action: yum name=httpd state=present
