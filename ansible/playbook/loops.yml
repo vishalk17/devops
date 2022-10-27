@@ -1,0 +1,13 @@
+--- # create multiple users using user module with loop
+- hosts: dev
+  user: ansible
+  become: yes
+  connection: ssh
+
+  tasks:
+    - name: create multiple users
+      user: name='{{item}}' state=present # see syntax '{{item}}' and with_items
+      with_items:
+        - vishalk17
+        - amol
+        - manoj
