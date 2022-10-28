@@ -1,0 +1,2 @@
+- name: install httpd on redhat server
+  yum: pkg=httpd state:latest
