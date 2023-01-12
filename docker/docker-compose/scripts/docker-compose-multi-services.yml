@@ -1,0 +1,10 @@
+version: '3'
+services:
+  service_one:
+    image: 'hello-world'
+
+  httpd-service:
+    image: 'httpd'
+
+  tomcat_service:
+    image: 'tomcat:9'

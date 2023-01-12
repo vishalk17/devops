@@ -1,0 +1,19 @@
+version: '3'
+services:
+  centos:
+    build: .
+    working_dir: /mnt/vishal
+    command: 
+      - sh
+      - -c
+      - |
+        yum update -y && yum install tree -y
+        touch /mnt/vishal/file1 /mnt/vishal/file2
+        tail -f /dev/null
+    volumes:
+      - ./data:/mnt/vishal
+    expose:
+      - "90"
+    ports:
+      - "8080:90"
+

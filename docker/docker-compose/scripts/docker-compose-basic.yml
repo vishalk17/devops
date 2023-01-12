@@ -1,0 +1,41 @@
+## version specifies docker-compose file version
+
+version: '3.8'
+
+# you can give any name to the service
+# in docker we use to have container same like wise
+# in docker-compose container treat as a service
+# image specifies which we are going to pull from dockerhub
+
+services:
+  centos_service:
+
+    image: httpd:latest
+
+# set enviromnetal variable
+#
+    environment:
+      - vishal=developer
+
+# set custom working dir
+#
+    working_dir: /usr/local/apache2/htdocs/
+
+# bind mount volumes
+# we cant use copy command which we used to do in Dockerfile
+# Thus use bind mount 
+#
+    volumes:
+     - /mnt:/mnt/vishal
+     - ./web-data:/usr/local/apache2/htdocs/
+
+# mapped host port 90 with container port
+#
+    ports:
+      - "90:80"
+
+# expose port 90
+
+    expose:
+      - "90"
+
