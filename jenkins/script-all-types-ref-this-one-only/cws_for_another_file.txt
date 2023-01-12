@@ -1,0 +1,36 @@
+pipeline{
+	agent {
+	    node {
+	    label 'slave2'						// it is mandatory to mention node syntax in case of customWorkspace
+	    customWorkspace '/vishal/pipeline' // set customWorkspace
+	    }
+	}
+	
+	stages{
+		stage ("stage-1"){
+			steps {
+				echo "this is stage 1"
+			}
+		}
+		stage ("stage-2"){
+			steps {
+				echo " this is stage 2"
+			}
+		}
+		stage ("stage-3"){
+			steps {
+				sh "touch file1"
+			}
+			}
+
+// create file in another location /mnt/temp
+
+		stage ("create file in another location"){
+			steps {
+			dir("/mnt/temp"){
+				sh "touch file2"
+			}
+			}
+		}
+	}
+} 

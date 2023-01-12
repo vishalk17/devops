@@ -1,0 +1,12 @@
+pipeline{
+    agent{
+        label "built-in"
+    }
+    stages{
+        stage ("trigger another job") {
+            steps {
+            build "multiple_stages"
+            }
+        }
+    }
+}

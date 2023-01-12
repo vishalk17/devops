@@ -1,0 +1,47 @@
+pipeline{
+	agent {
+	    node {
+	    label 'master'						// it is mandatory to mention node syntax in case of customWorkspace
+	    customWorkspace '/vishal/pipeline' // set customWorkspace
+	    }
+	}
+	
+	stages{
+		stage ("stage-1"){
+			steps {
+				echo "this is stage 1"	// will be executed in /vishal/pipeline location
+			}
+		}
+		stage ("create file in another location"){
+			steps {
+			dir("/mnt/temp"){	// files will be created in csw /mnt/temp on master
+				sh "touch file2"
+			}
+			}
+		}
+		stage ('execute on slave1'){
+		agent {
+			label 'slave1'
+		}
+			steps{
+			dir('/home/ec2-user'){	// files will be created in csw /home/ec2-user on slave1
+				sh "pwd"
+				sh "touch file1 file2 file3"
+			}
+			}
+			} 
+		stage ('execute on slave2'){
+		agent {
+			label 'slave2'
+		}
+			steps{
+				sh "pwd"
+				sh "touch file1 file2 file3" // files will be created in default remote directory already defined in node /home/ec2-user/workspace/name/
+											// so it is important for you to define workspace directory if u have changed before in script
+			}
+		}
+		
+		
+		
+	}
+}

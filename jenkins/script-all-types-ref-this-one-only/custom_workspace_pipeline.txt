@@ -1,0 +1,26 @@
+pipeline{
+	agent {
+	    node {
+	    label 'slave2'
+	    customWorkspace '/vishal/pipeline'
+	    }
+	}
+	
+	stages{
+		stage ("stage-1"){
+			steps {
+				echo "this is stage 1"
+			}
+		}
+		stage ("stage-2"){
+			steps {
+				echo " this is stage 2"
+			}
+		}
+		stage ("stage-3"){
+			steps {
+				sh "touch file1"
+			}
+		}
+	}
+} 

@@ -1,0 +1,10 @@
+pipeline{
+	agent{
+	label "dev"
+	}
+	stages{
+		stage ("print hello"){
+			echo " hello vishal"
+		}
+	}
+}
