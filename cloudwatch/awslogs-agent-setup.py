@@ -510,32 +510,32 @@ class CloudWatchLogsAgentSetup:
     def get_distro_info(self):
         default_issue_file_path = "/etc/issue"
         redhat_version_file_path = "/etc/redhat-release"
-        if os.path.isfile(redhat_version_file_path):
-            issue_file_path = redhat_version_file_path
-        elif os.path.isfile(default_issue_file_path):
-            issue_file_path = default_issue_file_path
-        else:
-            fail("Failed to determine linux distribution. Exiting.", PLATFORM_NOT_SUPPORTED)
+     #   if os.path.isfile(redhat_version_file_path):
+           # issue_file_path = redhat_version_file_path
+      #  elif os.path.isfile(default_issue_file_path):
+       #     issue_file_path = default_issue_file_path
+       # else:
+       #     fail("Failed to determine linux distribution. Exiting.", PLATFORM_NOT_SUPPORTED)
 
         # Support Amazon Linux, Ubuntu, CentOS, Debian, Raspbian and RHEL.
-        with open(issue_file_path, "r") as issue_file:
-            line = issue_file.readline()
-            if line.startswith("Amazon Linux AMI"):
-                return self.AmazonLinux
-            elif line.startswith("Ubuntu"):
-                os.environ['DEBIAN_FRONTEND'] = 'noninteractive'
-                return self.Ubuntu
-            elif line.startswith("Red Hat"):
-                return self.Rhel
-            elif line.startswith("CentOS"):
-                return self.CentOS
-            elif line.startswith("Raspbian"):
-                return self.Raspbian
-            elif line.startswith("Debian"):
-                os.environ['DEBIAN_FRONTEND'] = 'noninteractive'
-                return self.Debian
-            else:
-                fail("Failed to determine linux distribution. Exiting.", PLATFORM_NOT_SUPPORTED)
+        #with open(issue_file_path, "r") as issue_file:
+        #    line = issue_file.readline()
+        #    if line.startswith("Amazon Linux AMI"):
+            #    return self.AmazonLinux
+         #   elif line.startswith("Ubuntu"):
+         #       os.environ['DEBIAN_FRONTEND'] = 'noninteractive'
+         #       return self.Ubuntu
+         #   elif line.startswith("Red Hat"):
+         #       return self.Rhel
+         #   elif line.startswith("CentOS"):
+         #       return self.CentOS
+         #   elif line.startswith("Raspbian"):
+         #       return self.Raspbian
+         #   elif line.startswith("Debian"):
+         #       os.environ['DEBIAN_FRONTEND'] = 'noninteractive'
+         #       return self.Debian
+         #   else:
+         #       fail("Failed to determine linux distribution. Exiting.", PLATFORM_NOT_SUPPORTED)
 
     def get_installer_name(self):
         return self.installer_name_map[self.os_flavor]
@@ -689,10 +689,10 @@ class CloudWatchLogsAgentSetup:
 
     def setup_agent_as_daemon(self):
         # We use init.d for AmazonLinux and Upstart for Ubuntu.
-        if self.os_flavor == self.AmazonLinux or self.os_flavor == self.Ubuntu or self.os_flavor == self.Rhel or self.os_flavor == self.CentOS or self.os_flavor == self.Raspbian or self.os_flavor == self.Debian:
+      #  if self.os_flavor == self.AmazonLinux or self.os_flavor == self.Ubuntu or self.os_flavor == self.Rhel or self.os_flavor == self.CentOS or self.os_flavor == self.Raspbian or self.os_flavor == self.Debian:
             self.setup_initd()
-        else:
-            fail("Unsupported platform.", PLATFORM_NOT_SUPPORTED)
+      #  else:
+      #      fail("Unsupported platform.", PLATFORM_NOT_SUPPORTED)
 
     @contextmanager
     def cd(self, dirname):
