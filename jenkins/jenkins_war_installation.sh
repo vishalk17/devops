@@ -5,7 +5,7 @@ amazon-linux-extras install java-openjdk11 -y
 
 mkdir tools
 cd tools
-wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.70/bin/apache-tomcat-9.0.70.zip
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.73/bin/apache-tomcat-9.0.73.zip
 unzip apache*tomcat*.zip
 
 cd apache-tomcat-9.0.70/
