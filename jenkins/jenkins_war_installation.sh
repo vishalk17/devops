@@ -15,3 +15,13 @@ wget https://get.jenkins.io/war-stable/2.375.1/jenkins.war
 cd ../bin
 chmod +x *.sh
 
+## start jenkins or not ##
+read  -p "Start Jenkins? (yes/no) " answer
+
+if [ "$answer" == "yes" ]
+then
+  echo "Started Jenkins successfully."
+else
+  echo "Start Jenkins manually later on."
+fi
+#
