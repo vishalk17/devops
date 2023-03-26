@@ -12,10 +12,12 @@
     - name: check server reachability
       ping:
       register: reachability_test   # dash - is not allowed only _
-
+                                    # store output in reachability_test variable
+ 
     - name: install '{{pkg}}'
       yum: name='{{pkg}}' state=present
       when: reachability_test.changed == false  # false meaning reachable
+                                                # install pkg only if reachability_test is false
       notify: start '{{pkg}}' service
 
   handlers:
