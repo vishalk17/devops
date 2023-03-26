@@ -1,0 +1,23 @@
+---
+- hosts: all
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: yes
+
+  vars:
+    pkg: httpd
+
+  tasks:
+    - name: check server reachability
+      ping:
+      register: reachability_test   # dash - is not allowed only _
+
+    - name: install '{{pkg}}'
+      yum: name='{{pkg}}' state=present
+      when: reachability_test.changed == false  # false meaning reachable
+      notify: start '{{pkg}}' service
+
+  handlers:
+    - name: start '{{pkg}}' service
+      service: name='{{pkg}}' state=started
