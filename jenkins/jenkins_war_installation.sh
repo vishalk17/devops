@@ -8,7 +8,7 @@ cd tools
 wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.73/bin/apache-tomcat-9.0.73.zip
 unzip apache*tomcat*.zip
 
-cd apache-tomcat-9.0.70/
+cd apache-tomcat-9.*/
 cd webapps
 wget https://get.jenkins.io/war-stable/2.375.1/jenkins.war
 
@@ -20,8 +20,10 @@ read  -p "Start Jenkins? (yes/no) " answer
 
 if [ "$answer" == "yes" ]
 then
-  echo "Started Jenkins successfully."
+        bash "startup.sh"
+        sleep 3
+        echo "Started Jenkins successfully."
 else
-  echo "Start Jenkins manually later on."
+        echo "Start Jenkins manually later on."
 fi
 #
