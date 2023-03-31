@@ -1,0 +1,69 @@
+pipeline{
+    agent{
+        node{
+            label 'dev'
+        }
+    }
+
+// scheduling build at every minute start
+//  minutes  hour    day   month   week
+//  0-59     0-23   1-31   1-12    0-7
+
+  triggers {
+    cron('* * * * *')
+  }
+
+// scheduling build at every minute start
+
+
+    stages{
+
+//parallel jobs start
+
+        stage('parallel stages'){
+            parallel{
+            stage('print hello vishal'){
+                steps{
+                    dir('/var'){
+                        sh "echo 'hello vishal' "
+                    }
+                } 
+            }
+
+// create files and give path of directory
+
+            stage ('stage2'){
+                steps {
+                    dir('/var'){
+                    sh 'pwd'
+                    sh 'touch vish1 vish2'
+                    sh 'ls && pwd '
+                }
+                }
+            }
+            }
+        }
+
+//parallel jobs end
+/**
+// trigger another job
+
+        stage ('trigger another job'){
+            steps{
+                build "multiple stages"
+            }
+        }
+**/        
+        stage ('execute task on master'){
+    when {
+        expression { currentBuild.result == 'SUCCESS' || currentBuild.result == 'FAILURE' }
+    }
+            agent{
+                label 'master'
+            }
+            steps{
+                sh 'touch xyz aaa ffff dddd'
+            }
+        }
+    }
+}
