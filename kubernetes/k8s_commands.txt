@@ -1,0 +1,67 @@
+
+kubeadm init
+kubeadm reset
+
+kubectl get nodes	-- number of nodes ready/not ready
+kubectl get all 	-- get all the info about the components
+
+kubectl describe  node ip	--- detailed about node
+kubectl get pods -o wide 	-- if you want to see where exactly pod is running,ip address
+kubectl describe pod testpod -- detail about pod
+
+kubectl apply -f pod1.yml	--- apply configuration from pod1.yml,  -f : file
+
+kubectl logs -f testpod 	-- logs
+kubectl logs -f testpod -c container-name  ...... . if pod contain multiple container , and want to see 
+													specific logs of single container
+
+kubectl delete pod testpod	-- delete testpod	... delete pod
+kubectl delete -f pod.yml ..... delete pod
+
+kubectl exec -it -c container-name -- /bin/bash	.. enter in container bash 
+
+kubectl exec testpod -c container-name -- hostname -i ... it will return pod private ip, no matter how 
+															much container in single pod. (pod has ip not container)
+
+kubectl get deployments		... get all deployments															
+kubectl delete deployment vishalk17-deployment : delete replica org
+
+-------------------------------
+***  Labels ***
+
+kubectl get pods --show-labels  ... if labels on pod
+kubectl get nodes --show-labels  ... if labels on nodes
+
+--------------------------
+*** replication ****
+
+kubectl get rc	...list of replication
+------------
+**** scaling *****
+
+kubectl scale --replicas=8 rc -l myname=vishalk17	.. -l : label , 8 replicas scale , replication contraller (rc)
+														replica scale up and down by changing the number
+
+
+----------
+****************  Deployment & Roll back **********
+
+kubectl get deployment	.. to check deployment was created or not
+kubectl describe deploy mydeployments	.. toc check hwo deployment creates rs & pods
+kubectl get rs		... check replication set
+
+kubectl scale --replicas=1 deploy mydeployments	.. to scale up or down
+kubectl logs -f podname	.. to check what is running inside container
+
+kubectl rollout status deployment mydeployments	.. to check status
+kubectl rollout history deployment mydeployments  .. check revision
+
+kubectl rollout undo deploy/mydeployments	.. rollback to previous version
+
+kubectl rollout undo deploy/mydeployments --to-revison=2	.. rollback to specific version
+
+------------------------------------------------------------
+minikube start --vm-driver=none
+
+minikube status ... status
+minikube ip  -- minikube ip
