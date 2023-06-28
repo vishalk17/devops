@@ -1,0 +1,24 @@
+- hosts: ubuntu20
+  user: sarfaraz
+  become: True
+  tasks:
+    - name: Update APT Package repository cache
+      apt:
+         update_cache: True
+    - name: Install MySQL server on Ubuntu 20.04 LTS
+      apt:
+         name: mysql-server
+         state: present
+    - name: Install MySQL client on Ubuntu 20.04 LTS
+      apt:
+         name: mysql-client
+         state: present
+    - name: Make sure mysql service is running
+      service:
+         name: mysql
+         state: started
+         enabled: True
+    - name: Install python3-pymysql library
+      apt:
+         name: python3-pymysql
+         state: present

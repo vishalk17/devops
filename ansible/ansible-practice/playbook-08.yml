@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: yes
+  vars:
+#    user: "{{ ansible_env.USER }}"   #it will take "{{ ansible_env.USER }}" = root as 
+                                      # become: yes provides root privellege initially
+    user: ansible
+  tasks:
+    - name: Create root file
+      file:
+        path: /tmp/my_file_root
+        state: touch
+
+    - name: Create user file
+      become_user: "{{ user }}"
+      file:
+        path: "/tmp/my_file_{{ user }}"
+        state: touch
