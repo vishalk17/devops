@@ -1,0 +1,11 @@
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=Vishal@1995
+resources:
+  - mysql-pv.yml
+  - wordpress-pv.yml
+  - mysql-service.yml
+  - wordpress-service.yml
+  - deploymysql.yml
+  - deploy-wordpress.yml

@@ -1,0 +1,41 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: deployment-wordpress
+spec:
+  selector:
+    matchLabels:
+      application: wordpress
+      mode: wordpress-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: web-vishalk17-pod
+      labels:
+        application: wordpress
+        mode: wordpress-app
+    spec:
+      containers:
+        - name: wordpress
+          image: wordpress:6.2.1-apache
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: wordpress-mysql
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: password
+            - name: WORDPRESS_DB_USER
+              value: wordpress
+          ports:
+            - containerPort: 80
+              name: wordpress
+          volumeMounts:
+            - name: wordpress-persistent-storage
+              mountPath: /var/www/html
+      volumes:
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+            claimName: wp-pv-claim
