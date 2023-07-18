@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-xyz
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - image: ubuntu
+              name: c00
+              command: ["/bin/bash", "-c", "echo vishal; sleep 5"]
+          restartPolicy: Never

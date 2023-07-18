@@ -1,0 +1,13 @@
+kind: Pod
+apiVersion: v1
+metadata:
+        name: enviroments
+spec:
+        containers:
+                - name: c00
+                  image: ubuntu
+                  command:  ["/bin/bash", "-c", "while true; do echo Hello-Bhupinder; sleep 5 ; done"]
+                  env:
+                          - name: myname
+                            value: vishalk17
+

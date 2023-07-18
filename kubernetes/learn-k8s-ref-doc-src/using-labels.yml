@@ -1,0 +1,16 @@
+kind: Pod
+apiVersion: v1
+metadata:
+        name: using-labels
+        labels:
+                env: dev
+                application: web-vishalk17
+spec:
+        containers:
+                - name: c00
+                  image: ubuntu
+                  command:  ["/bin/bash", "-c", "while true; do echo Hello-vishalk17; sleep 5 ; done"]
+                  env:
+                          - name: myname
+                            value: vishalk17
+

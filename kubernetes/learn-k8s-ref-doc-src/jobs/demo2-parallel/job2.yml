@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: testjob
+spec:
+  parallelism: 5             # Runs for pods in parallel
+  activeDeadlineSeconds: 10  # Time in which it has to completed tASK else terminate 
+  template:
+    metadata:
+      name: testjob
+    spec:
+      containers:
+      - name: counter
+        image: centos:7
+        command: ["bin/bash", "-c", "echo vishal; sleep 20"]
+      restartPolicy: Never
+

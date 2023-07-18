@@ -1,0 +1,24 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+        name: deployment-web-app-vishalk17
+spec:
+        replicas: 4
+        selector:
+                matchExpressions:
+                        - {key: application, operator: In, values: [web-vishalk17, web-google, ubuntu-app]}
+                        - {key: env, operator: NotIn, values: [dev]}
+        template:
+                metadata:
+                        name: web-vishalk17-pod
+                        labels:
+                                application: web-vishalk17
+                spec:
+                        containers:
+                                - name: ubuntu-container
+                                  image: ubuntu
+                                  command:  ["/bin/bash", "-c", "while true; do echo I-love-u-vishal; sleep 5 ; done"]
+                                  env:
+                                          - name: myname
+                                            value: vishalk17
+

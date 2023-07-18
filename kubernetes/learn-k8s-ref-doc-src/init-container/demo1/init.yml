@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: initcontainer-pod
+spec:
+  initContainers:
+    - name: c00-init-container
+      image: centos
+      command: ["/bin/sh", "-c", "echo LIKE AND SUBSCRIBE t.me/vishalk17 > /tmp/xchange/testfile; sleep 30"]
+      volumeMounts:
+        - name: xchange
+          mountPath: "/tmp/xchange"
+  containers:
+    - name: c01-main-container
+      image: centos
+      command: ["/bin/bash", "-c", "while true; do echo `cat /tmp/data/testfile`; sleep 5; done"]
+      volumeMounts:
+        - name: xchange
+          mountPath: "/tmp/data"
+  volumes:
+    - name: xchange
+

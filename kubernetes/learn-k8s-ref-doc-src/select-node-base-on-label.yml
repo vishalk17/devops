@@ -1,0 +1,17 @@
+kind: Pod
+apiVersion: v1
+metadata:
+        name: select-node-base-on-label
+        labels:
+                env: testing
+                application: web-google
+spec:
+        containers:
+                - name: web-google-app
+                  image: ubuntu
+                  command:  ["/bin/bash", "-c", "while true; do echo Hello-vishalk17; sleep 5 ; done"]
+                  env:
+                          - name: myname
+                            value: vishalk17
+        nodeSelector:
+                hardware: t2.medium #should match with label given to the node

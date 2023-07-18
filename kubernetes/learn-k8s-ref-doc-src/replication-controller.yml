@@ -1,0 +1,22 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+        name: replication-web-app-vishalk17
+spec:
+        replicas: 2
+        selector:
+                application: web-vishalk17
+        template:
+                metadata:
+                        name: web-vishalk17-pod
+                        labels:
+                                application: web-vishalk17
+                spec:
+                        containers:
+                                - name: ubuntu-container
+                                  image: ubuntu
+                                  command:  ["/bin/bash", "-c", "while true; do echo Hello-vishalk17; sleep 5 ; done"]
+                                  env:
+                                          - name: myname
+                                            value: vishalk17
+

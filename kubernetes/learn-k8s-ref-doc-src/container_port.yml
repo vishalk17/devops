@@ -1,0 +1,15 @@
+kind: Pod
+apiVersion: v1
+metadata:
+        name: containerport-practical
+spec:
+        containers:
+                - name: httpd-container
+                  image: httpd
+                  command:  ["/bin/bash", "-c", "while true; do echo Hello-Bhupinder; sleep 5 ; done"]
+                  ports:
+                          - containerPort: 80
+                  env:
+                          - name: myname
+                            value: vishalk17
+
