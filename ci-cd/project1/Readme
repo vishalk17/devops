@@ -1,0 +1,15 @@
+CI/CD Pipeline
+
+When we update or push code to the Git repository, Git-webhook will notify Jenkins. Jenkins will then trigger the first job, which will:
+
+    Pull the source code to the local machine.
+    Compile the code using Maven and run SonarQube analysis.
+    Deploy the WAR file to the Nexus artifact repository.
+
+The first job will then trigger the second job, which will:
+
+    Download the latest WAR file from the Nexus artifact repository.
+    Transfer the WAR file to another server using Ansible playbook.
+    Start the Tomcat server on the other server.
+
+Once the Tomcat server is started, our web page will be accessible from the web.
