@@ -1,5 +1,7 @@
 CI/CD Pipeline
 
+- jenkins-git-ansible-nexus-sonar scanner analysis-tomcat-maven-bash scripts
+
 When we update or push code to the Git repository, Git-webhook will notify Jenkins. Jenkins will then trigger the first job, which will:
 
     Pull the source code to the local machine.
