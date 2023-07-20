@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+      - name: init-nginx
+        image: centos
+        command: ["/bin/sh", "-c", "echo 'Hello, World!' > /data/nginx/vishalk17.txt"]
+        volumeMounts:
+        - name: nginx-pv-volume
+          mountPath: /data/nginx
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-pv-volume
+          mountPath: /data/nginx
+      volumes:
+      - name: nginx-pv-volume
+        persistentVolumeClaim:
+          claimName: nginx-pvc
