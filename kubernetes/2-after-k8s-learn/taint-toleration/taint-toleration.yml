@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+        name: testpod
+spec:
+        containers:
+                - name: vishal-nginx
+                  image: nginx:alpine
+                  ports:
+                          - containerPort: 80
+        tolerations:
+                - key: app
+                  operator: Equal
+                  value: vishalk17
+                  effect: NoSchedule

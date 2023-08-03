@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-web
+data:
+  my_website: https://www.vishalk17.com
+  color: blue
+
