@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: mem-cpu-demo
+  namespace: vishalk17
+spec:
+  hard:
+    requests.cpu: "1"
+    limits.cpu: "2"
+
+    requests.memory: 500Mi
+    limits.memory: 1Gi
