@@ -1,0 +1,447 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 69,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "DaemonSets",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 19,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 3,
+      "links": [],
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": true
+      },
+      "styles": [
+        {
+          "align": "auto",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "Scheduled",
+          "align": "auto",
+          "colorMode": "cell",
+          "colors": [
+            "#56a64b",
+            "#ff780a",
+            "#e02f44"
+          ],
+          "mappingType": 2,
+          "pattern": "Value #A",
+          "rangeMaps": [
+            {
+              "from": 0,
+              "text": "OK",
+              "to": 0
+            },
+            {
+              "from": 1,
+              "text": "Failed",
+              "to": 1e+32
+            }
+          ],
+          "thresholds": [
+            1,
+            1
+          ],
+          "type": "string"
+        },
+        {
+          "alias": "Updated",
+          "align": "auto",
+          "colorMode": "cell",
+          "colors": [
+            "#56a64b",
+            "#ff780a",
+            "#e02f44"
+          ],
+          "mappingType": 2,
+          "pattern": "Value #B",
+          "rangeMaps": [
+            {
+              "from": 0,
+              "text": "OK",
+              "to": 0
+            },
+            {
+              "from": 1,
+              "text": "Failed",
+              "to": 1e+32
+            }
+          ],
+          "thresholds": [
+            1,
+            1
+          ],
+          "type": "string"
+        },
+        {
+          "alias": "Available",
+          "align": "auto",
+          "colorMode": "cell",
+          "colors": [
+            "#56a64b",
+            "#ff780a",
+            "#e02f44"
+          ],
+          "mappingType": 2,
+          "pattern": "Value #C",
+          "rangeMaps": [
+            {
+              "from": 0,
+              "text": "OK",
+              "to": 0
+            },
+            {
+              "from": 1,
+              "text": "Failed",
+              "to": 1e+32
+            }
+          ],
+          "thresholds": [
+            1,
+            1
+          ],
+          "type": "string"
+        },
+        {
+          "alias": "Ready",
+          "align": "auto",
+          "colorMode": "cell",
+          "colors": [
+            "#56a64b",
+            "#ff780a",
+            "#e02f44"
+          ],
+          "mappingType": 2,
+          "pattern": "Value #D",
+          "rangeMaps": [
+            {
+              "from": 0,
+              "text": "OK",
+              "to": 0
+            },
+            {
+              "from": 1,
+              "text": "Failed",
+              "to": 1e+32
+            }
+          ],
+          "thresholds": [
+            1,
+            1
+          ],
+          "type": "string"
+        },
+        {
+          "alias": "DaemonSet",
+          "align": "auto",
+          "pattern": "daemonset",
+          "type": "string"
+        },
+        {
+          "alias": "Namespace",
+          "align": "auto",
+          "link": true,
+          "linkTooltip": "Detail",
+          "linkUrl": "/d/containerdetail?var-namespace=$__cell&var-pod=All&var-view=pod&var-search=&refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to",
+          "pattern": "namespace"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum by (daemonset, namespace) (kube_daemonset_status_number_misscheduled{cluster=\"$cluster\", namespace=~\"$namespace\", daemonset=~\"$daemonset\"})",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum by (daemonset, namespace) (kube_daemonset_status_desired_number_scheduled{cluster=\"$cluster\", namespace=~\"$namespace\", daemonset=~\"$daemonset\"}) - sum by (daemonset, namespace) (kube_daemonset_updated_number_scheduled{cluster=\"$cluster\", namespace=~\"$namespace\", daemonset=~\"$daemonset\"})",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum by (daemonset, namespace) (kube_daemonset_status_desired_number_scheduled{cluster=\"$cluster\", namespace=~\"$namespace\", daemonset=~\"$daemonset\"}) - sum by (daemonset, namespace) (kube_daemonset_status_number_available{cluster=\"$cluster\", namespace=~\"$namespace\", daemonset=~\"$daemonset\"})",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum by (daemonset, namespace) (kube_daemonset_status_desired_number_scheduled{cluster=\"$cluster\", namespace=~\"$namespace\", daemonset=~\"$daemonset\"}) - sum by (daemonset, namespace) (kube_daemonset_status_number_ready{cluster=\"$cluster\", namespace=~\"$namespace\", daemonset=~\"$daemonset\"})",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "D"
+        }
+      ],
+      "title": "DaemonSets",
+      "transform": "table",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "indexByName": {
+              "Time": 0,
+              "Value #A": 3,
+              "Value #B": 4,
+              "Value #C": 5,
+              "Value #D": 6,
+              "daemonset": 2,
+              "namespace": 1
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table-old"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "k8s",
+    "overview",
+    "L2"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "query": "label_values(kube_daemonset_status_desired_number_scheduled, cluster)",
+          "refId": "Prometheus-cluster-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Namespace",
+        "multi": true,
+        "name": "namespace",
+        "options": [],
+        "query": {
+          "query": "label_values(kube_daemonset_status_desired_number_scheduled{cluster=\"$cluster\"}, namespace)",
+          "refId": "Prometheus-namespace-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "DaemonSet",
+        "multi": true,
+        "name": "daemonset",
+        "options": [],
+        "query": {
+          "query": "label_values(kube_daemonset_status_desired_number_scheduled{cluster=\"$cluster\", namespace=~\"$namespace\"}, daemonset)",
+          "refId": "Prometheus-daemonset-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "DaemonSet",
+  "uid": "daemonsetoverview",
+  "version": 2,
+  "weekStart": ""
+}

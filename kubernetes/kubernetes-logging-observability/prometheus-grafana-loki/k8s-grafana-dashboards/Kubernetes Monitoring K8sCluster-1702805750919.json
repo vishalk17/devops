@@ -1,0 +1,4007 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 73,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "doc",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Logs",
+      "type": "link",
+      "url": "/explore?orgId=1&left=%5B%22now-1d%22,%22now%22,%22$datasource_logs%22,%7B%22expr%22:%22%7Bcluster%3D%5C%22$cluster%5C%22,%20namespace%3D%5C%22kube-system%5C%22,%20stream%3D%5C%22stderr%5C%22%7D%20%7C~%20%5C%22(%3Fi)error%5C%22%20!~%20%5C%22Final%20error%20received,%20removing%20PVC%20.%2B%20from%20claims%20in%20progress%5C%22%22%7D,%7B%22mode%22:%22Logs%22%7D,%7B%22ui%22:%5Btrue,true,true,%22numbers%22%5D%7D%5D"
+    },
+    {
+      "asDropdown": true,
+      "icon": "cloud",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "dNation - Making Cloud Easy",
+      "type": "link",
+      "url": "https://www.dNation.cloud/"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Alerts",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/alertclusteroverview?var-alertmanager=$alertmanager&var-severity=critical&refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-alertgroup=Cluster&var-alertgroup=ClusterApp"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 3,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(ALERTS{cluster=\"$cluster\", alertname!=\"Watchdog\", alertstate=~\"firing|pending\", severity=\"critical\", alertgroup=~\"Cluster|ClusterApp\"}) OR on() vector(0)",
+          "refId": "A",
+          "type": "single"
+        }
+      ],
+      "title": "Critical",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/alertclusteroverview?var-alertmanager=$alertmanager&var-severity=warning&refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-alertgroup=Cluster&var-alertgroup=ClusterApp"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 4,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(ALERTS{cluster=\"$cluster\", alertname!=\"Watchdog\", alertstate=~\"firing|pending\", severity=\"warning\", alertgroup=~\"Cluster|ClusterApp\"}) OR on() vector(0)",
+          "refId": "A",
+          "type": "single"
+        }
+      ],
+      "title": "Warning",
+      "type": "stat"
+    },
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 5,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Control Plane",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _apiServerHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/apiserver?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 5
+      },
+      "id": 17,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "(sum(up{cluster=\"$cluster\", job=\"apiserver\"}) / count(up{cluster=\"$cluster\", job=\"apiserver\"})) * 100 OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "API Server",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _controllerManagerHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/controllermanager?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
+        "y": 5
+      },
+      "id": 18,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "(sum(up{cluster=\"$cluster\", job=\"kube-controller-manager\"}) / count(up{cluster=\"$cluster\", job=\"kube-controller-manager\"})) * 100 OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Controller Manager",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _etcdHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/etcd?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 8,
+        "y": 5
+      },
+      "id": 21,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "(sum(up{cluster=\"$cluster\", job=\"kube-etcd\"}) / count(up{cluster=\"$cluster\", job=\"kube-etcd\"})) * 100 OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Etcd",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _kubeletHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/kubelet?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 12,
+        "y": 5
+      },
+      "id": 22,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "(sum(up{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\"}) / count(up{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\"})) * 100 OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Kubelet",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _proxyHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/proxy?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 16,
+        "y": 5
+      },
+      "id": 41,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "(sum(up{cluster=\"$cluster\", job=\"kube-proxy\"}) / count(up{cluster=\"$cluster\", job=\"kube-proxy\"})) * 100 OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Proxy",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _schedulerHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/scheduler?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 5
+      },
+      "id": 46,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "(sum(up{cluster=\"$cluster\", job=\"kube-scheduler\"}) / count(up{cluster=\"$cluster\", job=\"kube-scheduler\"})) * 100 OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Scheduler",
+      "type": "stat"
+    },
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 6,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Overview",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _nodeHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/nodeoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e02f44",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 9
+      },
+      "id": 32,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "round(sum(kube_node_info{cluster=\"$cluster\"}) / (sum(kube_node_info{cluster=\"$cluster\"}) + sum(kube_node_spec_unschedulable{cluster=\"$cluster\"}) + sum(kube_node_status_condition{cluster=\"$cluster\", condition=~\"DiskPressure|MemoryPressure|PIDPressure\", status=~\"true|unknown\"})  + sum(kube_node_status_condition{cluster=\"$cluster\", condition=\"Ready\", status=~\"false|unknown\"}) ) * 100)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Nodes Health",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _runningStatefulSets_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/statefulsetoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e02f44",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 9
+      },
+      "id": 45,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "round(sum(kube_statefulset_status_replicas_ready{cluster=\"$cluster\"}) / sum(kube_statefulset_status_replicas{cluster=\"$cluster\"}) * 100)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Running StatefulSets",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _runningPods_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/podoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e02f44",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 9
+      },
+      "id": 44,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "round(sum(kube_pod_status_phase{cluster=\"$cluster\", phase=\"Running\"}) / (sum(kube_pod_status_phase{cluster=\"$cluster\", phase=\"Running\"}) + sum(kube_pod_status_phase{cluster=\"$cluster\", phase=\"Pending\"}) + sum(kube_pod_status_phase{cluster=\"$cluster\", phase=\"Failed\"}) + sum(kube_pod_status_phase{cluster=\"$cluster\", phase=\"Unknown\"})) * 100)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Running Pods",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _succeededJobs_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/joboverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 9
+      },
+      "id": 47,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "round(sum(kube_job_status_succeeded{cluster=\"$cluster\"}) / (sum(kube_job_status_succeeded{cluster=\"$cluster\"}) + sum(kube_job_status_failed{cluster=\"$cluster\"})) * 100) OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Succeeded Jobs",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _deploymentsHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/deploymentoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e02f44",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 12
+      },
+      "id": 20,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "round((sum(kube_deployment_status_replicas_updated{cluster=\"$cluster\"}) + sum(kube_deployment_status_replicas_available{cluster=\"$cluster\"})) / (2 * sum(kube_deployment_status_replicas{cluster=\"$cluster\"})) * 100)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Deployments Health",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _daemonSetsHealth_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/daemonsetoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e02f44",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 12
+      },
+      "id": 19,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "round((sum(kube_daemonset_status_updated_number_scheduled{cluster=\"$cluster\"} OR kube_daemonset_updated_number_scheduled{cluster=\"$cluster\"}) + sum(kube_daemonset_status_number_available{cluster=\"$cluster\"})) / (2 * sum(kube_daemonset_status_desired_number_scheduled{cluster=\"$cluster\"})) * 100)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "DaemonSets Health",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _runningContainers_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/containeroverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e02f44",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 12
+      },
+      "id": 43,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "round(sum(kube_pod_container_status_running{cluster=\"$cluster\"}) / (sum(kube_pod_container_status_running{cluster=\"$cluster\"}) + (sum(kube_pod_container_status_terminated_reason{cluster=\"$cluster\", reason!=\"Completed\"}) OR vector(0)) + sum(kube_pod_container_status_waiting{cluster=\"$cluster\"})) * 100)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Running Containers",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _pvcBound_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/pvcoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#e02f44",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 95
+              },
+              {
+                "color": "#56a64b",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 12
+      },
+      "id": 42,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "round(sum(kube_persistentvolumeclaim_status_phase{cluster=\"$cluster\", phase=\"Bound\"}) / (\nsum(kube_persistentvolumeclaim_status_phase{cluster=\"$cluster\", phase=\"Bound\"}) + sum(kube_persistentvolumeclaim_status_phase{cluster=\"$cluster\", phase=\"Pending\"}) +\nsum(kube_persistentvolumeclaim_status_phase{cluster=\"$cluster\", phase=\"Lost\"})\n) * 100) OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "PVC Bound",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _mostUtilizedPVC_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "K8s Overview",
+              "url": "/d/pvcoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#000000",
+                "value": null
+              },
+              {
+                "color": "#56a64b",
+                "value": 0
+              },
+              {
+                "color": "#ff780a",
+                "value": 85
+              },
+              {
+                "color": "#e02f44",
+                "value": 97
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 12
+      },
+      "id": 27,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(sum(((kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\"} - kubelet_volume_stats_available_bytes{cluster=\"$cluster\"}) / kubelet_volume_stats_capacity_bytes{cluster=\"$cluster\"}) * 100) by (persistentvolumeclaim)) OR on() vector(-1)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Utilized PVC",
+      "type": "stat"
+    },
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 7,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Master Nodes Metrics",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 6,
+        "x": 0,
+        "y": 16
+      },
+      "id": 8,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "CPU",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 6,
+        "x": 6,
+        "y": 16
+      },
+      "id": 9,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "RAM",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 6,
+        "x": 12,
+        "y": 16
+      },
+      "id": 10,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Disk",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 6,
+        "x": 18,
+        "y": 16
+      },
+      "id": 11,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Network",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _overallUtilizationMasterNodesCPU_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/cpuoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/cpunamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 0,
+        "y": 17
+      },
+      "id": 34,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "avg(round((1 - (avg(irate(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"idle\"}[5m]) * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename) )) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Overall Utilization",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _mostUtilizedMasterNodeCPU_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/cpuoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/cpunamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 3,
+        "y": 17
+      },
+      "id": 23,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(round((1 - (avg(irate(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"idle\"}[5m]) * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename) )) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Utilized Node",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "The percentage of the memory utilization is calculated by:\n```\n1 - (<memory available>/<memory total>)\n```\n\nK8s monitoring template: _overallUtilizationMasterNodesRAM_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/memoryoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/memorynamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 17
+      },
+      "id": 36,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "avg(round((1 - sum by (job, nodename) (node_memory_MemAvailable_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) / sum by (job, nodename) (node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info))) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Overall Utilization",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "The percentage of the memory utilization is calculated by:\n```\n1 - (<memory available>/<memory total>)\n```\n\nK8s monitoring template: _mostUtilizedMasterNodeRAM_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/memoryoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/memorynamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 17
+      },
+      "id": 26,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(round((1 - sum by (job, nodename) (node_memory_MemAvailable_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) / sum by (job, nodename) (node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info))) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Utilized Node",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "The percentage of the disk utilization is calculated using the fraction:\n```\n<space used>/(<space used> + <space free>)\n```\nThe value of <space free> is reduced by  5% of the available disk capacity, because   \nthe file system marks 5% of the available disk capacity as reserved. \nIf less than 5% is free, using the remaining reserved space requires root privileges.\nAny non-privileged users and processes are unable to write new data to the partition. See the list of explicitly ignored mount points and file systems [here](https://github.com/dNationCloud/kubernetes-monitoring-stack/blob/main/chart/values.yaml)\n\nK8s monitoring template: _overallUtilizationMasterNodesDisk_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/diskoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 17
+      },
+      "id": 35,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "avg(round((sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device)) / ((sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device)) + sum(node_filesystem_avail_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device)) * 100 > 0))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Overall Utilization",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "The percentage of the disk utilization is calculated using the fraction:\n```\n<space used>/(<space used> + <space free>)\n```\nThe value of <space free> is reduced by  5% of the available disk capacity, because   \nthe file system marks 5% of the available disk capacity as reserved. \nIf less than 5% is free, using the remaining reserved space requires root privileges.\nAny non-privileged users and processes are unable to write new data to the partition. See the list of explicitly ignored mount points and file systems [here](https://github.com/dNationCloud/kubernetes-monitoring-stack/blob/main/chart/values.yaml)\n\nK8s monitoring template: _mostUtilizedMasterNodeDisk_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/diskoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 17
+      },
+      "id": 24,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(round((sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device)) / ((sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device)) + sum(node_filesystem_avail_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (master_uname_info)) by (job, nodename, device)) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Utilized Node",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _overallMasterNodesNetworkErrors_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/networkoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/networknamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 10
+              },
+              {
+                "color": "#e02f44",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 17
+      },
+      "id": 33,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(sum(rate(node_network_transmit_errs_total{cluster=\"$cluster\", job=~\"$job\", device!~\"lo|veth.+|docker.+|flannel.+|cali.+|cbr.|cni.+|br.+\"} [5m]) * on(instance, pod) group_left(nodename) (master_uname_info) ) by (job, nodename) + sum(rate(node_network_receive_errs_total{cluster=\"$cluster\", job=~\"$job\", device!~\"lo|veth.+|docker.+|flannel.+|cali.+|cbr.|cni.+|br.+\"}[5m]) * on(instance, pod) group_left(nodename) (master_uname_info) ) by (job, nodename))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Overall Errors",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _mostUtilizedMasterNodeNetworkErrors_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/networkoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/networknamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b",
+                "value": null
+              },
+              {
+                "color": "#ff780a",
+                "value": 10
+              },
+              {
+                "color": "#e02f44",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 17
+      },
+      "id": 25,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(sum(rate(node_network_transmit_errs_total{cluster=\"$cluster\", job=~\"$job\", device!~\"lo|veth.+|docker.+|flannel.+|cali.+|cbr.|cni.+|br.+\"} [5m]) * on(instance, pod) group_left(nodename) (master_uname_info) ) by (job, nodename) + sum(rate(node_network_receive_errs_total{cluster=\"$cluster\", job=~\"$job\", device!~\"lo|veth.+|docker.+|flannel.+|cali.+|cbr.|cni.+|br.+\"}[5m]) * on(instance, pod) group_left(nodename) (master_uname_info) ) by (job, nodename))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Affected Node",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _usedCoresMasterNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 0,
+        "y": 20
+      },
+      "id": 54,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "(1 - (avg(irate(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"idle\", instance=~\"$masterInstance\"}[5m])))) * count(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"system\", instance=~\"$masterInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Used Cores",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _totalCoresMasterNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 3,
+        "y": 20
+      },
+      "id": 48,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "count(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"system\", instance=~\"$masterInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Cores",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _usedRAMMasterNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 6,
+        "y": 20
+      },
+      "id": 58,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$masterInstance\"}) * (((1 - sum(node_memory_MemAvailable_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$masterInstance\"}) / sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$masterInstance\"}))))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Used",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _totalRAMMasterNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 9,
+        "y": 20
+      },
+      "id": 52,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$masterInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _usedDiskMasterNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 12,
+        "y": 20
+      },
+      "id": 56,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$masterInstance\"}) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$masterInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Used",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _totalDiskMasterNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 15,
+        "y": 20
+      },
+      "id": 50,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$masterInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total",
+      "type": "stat"
+    },
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 12,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Worker Nodes Metrics",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 6,
+        "x": 0,
+        "y": 23
+      },
+      "id": 13,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "CPU",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 6,
+        "x": 6,
+        "y": 23
+      },
+      "id": 14,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "RAM",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 6,
+        "x": 12,
+        "y": 23
+      },
+      "id": 15,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Disk",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 6,
+        "x": 18,
+        "y": 23
+      },
+      "id": 16,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Network",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _overallUtilizationWorkerNodesCPU_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/cpuoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/cpunamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b"
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 0,
+        "y": 24
+      },
+      "id": 37,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "avg(round((1 - (avg(irate(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"idle\"}[5m]) * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename) )) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Overall Utilization",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _mostUtilizedWorkerNodeCPU_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/cpuoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/cpunamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b"
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 3,
+        "y": 24
+      },
+      "id": 28,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(round((1 - (avg(irate(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"idle\"}[5m]) * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename) )) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Utilized Node",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "The percentage of the memory utilization is calculated by:\n```\n1 - (<memory available>/<memory total>)\n```\n\nK8s monitoring template: _overallUtilizationWorkerNodesRAM_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/memoryoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/memorynamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b"
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 24
+      },
+      "id": 39,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "avg(round((1 - sum by (job, nodename) (node_memory_MemAvailable_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) / sum by (job, nodename) (node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info))) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Overall Utilization",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "The percentage of the memory utilization is calculated by:\n```\n1 - (<memory available>/<memory total>)\n```\n\nK8s monitoring template: _mostUtilizedWorkerNodeRAM_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/memoryoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/memorynamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b"
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 24
+      },
+      "id": 31,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(round((1 - sum by (job, nodename) (node_memory_MemAvailable_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) / sum by (job, nodename) (node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info))) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Utilized Node",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "The percentage of the disk utilization is calculated using the fraction:\n```\n<space used>/(<space used> + <space free>)\n```\nThe value of <space free> is reduced by  5% of the available disk capacity, because   \nthe file system marks 5% of the available disk capacity as reserved. \nIf less than 5% is free, using the remaining reserved space requires root privileges.\nAny non-privileged users and processes are unable to write new data to the partition. See the list of explicitly ignored mount points and file systems [here](https://github.com/dNationCloud/kubernetes-monitoring-stack/blob/main/chart/values.yaml)\n\nK8s monitoring template: _overallUtilizationWorkerNodesDisk_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/diskoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b"
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 24
+      },
+      "id": 38,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "avg(round((sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device)) / ((sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device)) + sum(node_filesystem_avail_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device)) * 100 > 0))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Overall Utilization",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "The percentage of the disk utilization is calculated using the fraction:\n```\n<space used>/(<space used> + <space free>)\n```\nThe value of <space free> is reduced by  5% of the available disk capacity, because   \nthe file system marks 5% of the available disk capacity as reserved. \nIf less than 5% is free, using the remaining reserved space requires root privileges.\nAny non-privileged users and processes are unable to write new data to the partition. See the list of explicitly ignored mount points and file systems [here](https://github.com/dNationCloud/kubernetes-monitoring-stack/blob/main/chart/values.yaml)\n\nK8s monitoring template: _mostUtilizedWorkerNodeDisk_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/diskoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            }
+          ],
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b"
+              },
+              {
+                "color": "#ff780a",
+                "value": 75
+              },
+              {
+                "color": "#e02f44",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 24
+      },
+      "id": 29,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(round((sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device)) / ((sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device)) + sum(node_filesystem_avail_bytes{cluster=\"$cluster\", job=~\"$job\"} * on(instance, pod) group_left(nodename) (worker_uname_info)) by (job, nodename, device)) * 100))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Utilized Node",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _overallWorkerNodesNetworkErrors_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/networkoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/networknamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b"
+              },
+              {
+                "color": "#ff780a",
+                "value": 10
+              },
+              {
+                "color": "#e02f44",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 24
+      },
+      "id": 40,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(sum(rate(node_network_transmit_errs_total{cluster=\"$cluster\", job=~\"$job\", device!~\"lo|veth.+|docker.+|flannel.+|cali.+|cbr.|cni.+|br.+\"} [5m]) * on(instance, pod) group_left(nodename) (worker_uname_info) ) by (job, nodename) + sum(rate(node_network_receive_errs_total{cluster=\"$cluster\", job=~\"$job\", device!~\"lo|veth.+|docker.+|flannel.+|cali.+|cbr.|cni.+|br.+\"}[5m]) * on(instance, pod) group_left(nodename) (worker_uname_info) ) by (job, nodename))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Overall Errors",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _mostUtilizedWorkerNodeNetworkErrors_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "System Overview",
+              "url": "/d/networkoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to&var-instance=All"
+            },
+            {
+              "title": "K8s Overview",
+              "url": "/d/networknamespaceoverview?refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#56a64b"
+              },
+              {
+                "color": "#ff780a",
+                "value": 10
+              },
+              {
+                "color": "#e02f44",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 24
+      },
+      "id": 30,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "max(sum(rate(node_network_transmit_errs_total{cluster=\"$cluster\", job=~\"$job\", device!~\"lo|veth.+|docker.+|flannel.+|cali.+|cbr.|cni.+|br.+\"} [5m]) * on(instance, pod) group_left(nodename) (worker_uname_info) ) by (job, nodename) + sum(rate(node_network_receive_errs_total{cluster=\"$cluster\", job=~\"$job\", device!~\"lo|veth.+|docker.+|flannel.+|cali.+|cbr.|cni.+|br.+\"}[5m]) * on(instance, pod) group_left(nodename) (worker_uname_info) ) by (job, nodename))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Most Affected Node",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _usedCoresWorkerNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 0,
+        "y": 27
+      },
+      "id": 55,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "(1 - (avg(irate(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"idle\", instance=~\"$workerInstance\"}[5m])))) * count(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"system\", instance=~\"$workerInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Used Cores",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _totalCoresWorkerNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 3,
+        "y": 27
+      },
+      "id": 49,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "count(node_cpu_seconds_total{cluster=\"$cluster\", job=~\"$job\", mode=\"system\", instance=~\"$workerInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Cores",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _usedRAMWorkerNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 6,
+        "y": 27
+      },
+      "id": 59,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$workerInstance\"}) * (((1 - sum(node_memory_MemAvailable_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$workerInstance\"}) / sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$workerInstance\"}))))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Used",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _totalRAMWorkerNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 9,
+        "y": 27
+      },
+      "id": 53,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$workerInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _usedDiskWorkerNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 12,
+        "y": 27
+      },
+      "id": 57,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$workerInstance\"}) - sum(node_filesystem_free_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$workerInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Used",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "description": "\n\nK8s monitoring template: _totalDiskWorkerNodes_",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#858187"
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 15,
+        "y": 27
+      },
+      "id": 51,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "sum(node_filesystem_size_bytes{cluster=\"$cluster\", job=~\"$job\", instance=~\"$workerInstance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total",
+      "type": "stat"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "k8s",
+    "monitoring",
+    "L1"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "No data sources found",
+          "value": ""
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": "Alertmanager",
+        "multi": false,
+        "name": "alertmanager",
+        "options": [],
+        "query": "camptocamp-prometheus-alertmanager-datasource",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "query": "label_values(kube_node_info, cluster)",
+          "refId": "Prometheus-cluster-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 2,
+        "includeAll": true,
+        "label": "Job",
+        "multi": true,
+        "name": "job",
+        "options": [],
+        "query": {
+          "query": "label_values(node_exporter_build_info{cluster=\"$cluster\", pod!~\"virt-launcher.*|\"}, job)",
+          "refId": "Prometheus-job-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 2,
+        "includeAll": true,
+        "label": "Master Instance",
+        "multi": true,
+        "name": "masterInstance",
+        "options": [],
+        "query": {
+          "query": "label_values(master_uname_info{cluster=\"$cluster\"}, instance)",
+          "refId": "Prometheus-masterInstance-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 2,
+        "includeAll": true,
+        "label": "Worker Instance",
+        "multi": true,
+        "name": "workerInstance",
+        "options": [],
+        "query": {
+          "query": "label_values(worker_uname_info{cluster=\"$cluster\"}, instance)",
+          "refId": "Prometheus-workerInstance-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "loki",
+          "value": "loki"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": "Logs datasource",
+        "multi": false,
+        "name": "datasource_logs",
+        "options": [],
+        "query": "loki",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Kubernetes Monitoring K8sCluster",
+  "uid": "7fcdcfdb90ba42daa6f94cd9c21896ce",
+  "version": 3,
+  "weekStart": ""
+}

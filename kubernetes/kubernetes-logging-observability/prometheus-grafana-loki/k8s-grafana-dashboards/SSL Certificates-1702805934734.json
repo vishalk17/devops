@@ -1,0 +1,1219 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 95,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Overview",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 3,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "count(max(ssl_cert_not_after{cluster=\"$cluster\", job=~\"$job\"}) by (issuer_cn, serial_no))",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Unique Certificates",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 4,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "count(ssl_probe_success{cluster=\"$cluster\"})",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Probe Targets",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 5,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "\n            (count(up{job=~\"$job\", cluster=\"$cluster\"}==0) OR on() vector(0))+\n            (count(ssl_probe_success{cluster=\"$cluster\"}==0) OR on() vector(0))+\n            (count((ssl_cert_not_after{cluster=\"$cluster\"}-time())<0) OR on() vector(0))+\n            (count((ssl_file_not_after{cluster=\"$cluster\"}-time())<0) OR on() vector(0))+\n            (count((ssl_kubeconfig_cert_not_after{cluster=\"$cluster\"}-time())<0) OR on()vector(0))+\n            (count((ssl_kubernetes_cert_not_after{cluster=\"$cluster\"}-time())<0) OR on()vector(0))\n            ",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Expired/Failed Certificates",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 6,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "\n            (count(0<(ssl_cert_not_after{cluster=\"$cluster\"}-time())<8*24*60*60) OR on() vector(0))+\n            (count(0<(ssl_file_not_after{cluster=\"$cluster\"}-time())<8*24*60*60) OR on() vector(0))+\n            (count(0<(ssl_kubeconfig_cert_not_after{cluster=\"$cluster\"}-time())<8*24*60*60) OR on() vector(0)) +\n            (count(0<(ssl_kubernetes_cert_not_after{cluster=\"$cluster\"}-time())<8*24*60*60) OR on() vector(0))\n            ",
+          "format": {},
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Certificates Nearing Expiration",
+      "type": "stat"
+    },
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 7,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Failed SSL Connects",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 8,
+      "links": [],
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "SSL Failed",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(245,54,54,0.9)",
+            "rgba(237,129,40,0.89)",
+            "rgba(50,172,45,0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "Value",
+          "thresholds": [
+            "1"
+          ],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "align": "auto",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "__name__",
+          "type": "hidden"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "ssl_probe_success{cluster=\"$cluster\"}==0",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Failed SSL Connects",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "collapse": false,
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 9,
+      "panels": [],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "External SSL Certificates",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "uid": "$datasource"
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 10,
+      "links": [],
+      "showHeader": true,
+      "sort": {
+        "col": 3
+      },
+      "styles": [
+        {
+          "align": "auto",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "__name__",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "pod",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "job",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "endpoint",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "namespace",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "prometheus",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "container",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "prometheus_replica",
+          "type": "hidden"
+        },
+        {
+          "align": "auto",
+          "pattern": "service",
+          "type": "hidden"
+        },
+        {
+          "alias": "Serial No ",
+          "align": "auto",
+          "pattern": "serial_no"
+        },
+        {
+          "alias": "Instance",
+          "align": "auto",
+          "pattern": "instance",
+          "type": "string"
+        },
+        {
+          "alias": "CN",
+          "align": "auto",
+          "pattern": "cn",
+          "type": "string"
+        },
+        {
+          "alias": "Issuer CN",
+          "align": "auto",
+          "pattern": "issuer_cn",
+          "type": "string"
+        },
+        {
+          "alias": "DNS Names",
+          "align": "auto",
+          "pattern": "dnsnames",
+          "type": "string"
+        },
+        {
+          "alias": "TTL",
+          "align": "auto",
+          "colorMode": "cell",
+          "colors": [
+            "#e02f44",
+            "#ff780a",
+            "#56a64b"
+          ],
+          "decimals": 0,
+          "pattern": "Value",
+          "thresholds": [
+            0,
+            691200
+          ],
+          "type": "number",
+          "unit": "s"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "expr": "ssl_cert_not_after{ job=~\"$job\", cluster=\"$cluster\" } - time()",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "External SSL Certificates",
+      "transform": "timeseries_to_columns",
+      "type": "table-old"
+    },
+    {
+      "collapse": true,
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "id": 11,
+      "panels": [
+        {
+          "columns": [],
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 40,
+            "x": 0,
+            "y": 24
+          },
+          "id": 12,
+          "links": [],
+          "sort": {
+            "col": 3
+          },
+          "styles": [
+            {
+              "align": "auto",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "__name__",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "pod",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "job",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "endpoint",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "namespace",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "prometheus",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "container",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "prometheus_replica",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "service",
+              "type": "hidden"
+            },
+            {
+              "alias": "Serial No ",
+              "align": "auto",
+              "pattern": "serial_no"
+            },
+            {
+              "align": "auto",
+              "pattern": "dnsnames",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "instance",
+              "type": "hidden"
+            },
+            {
+              "alias": "Name",
+              "align": "auto",
+              "pattern": "name",
+              "type": "string"
+            },
+            {
+              "alias": "CN",
+              "align": "auto",
+              "pattern": "cn",
+              "type": "string"
+            },
+            {
+              "alias": "Issuer CN",
+              "align": "auto",
+              "pattern": "issuer_cn",
+              "type": "string"
+            },
+            {
+              "alias": "Kubeconfig",
+              "align": "auto",
+              "pattern": "kubeconfig",
+              "type": "string"
+            },
+            {
+              "alias": "TTL",
+              "align": "auto",
+              "colorMode": "cell",
+              "colors": [
+                "#e02f44",
+                "#ff780a",
+                "#56a64b"
+              ],
+              "decimals": 0,
+              "pattern": "Value",
+              "thresholds": [
+                0,
+                691200
+              ],
+              "type": "number",
+              "unit": "s"
+            }
+          ],
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "ssl_kubeconfig_cert_not_after{ job=~\"$job\", cluster=\"$cluster\" } - time()",
+              "format": "table",
+              "instant": true,
+              "intervalFactor": 2,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Kubeconfig Certificates",
+          "tooltip": {
+            "sort": 2
+          },
+          "type": "table-old"
+        }
+      ],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Kubeconfig Certificates",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "collapse": true,
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 13,
+      "panels": [
+        {
+          "columns": [],
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 40,
+            "x": 0,
+            "y": 33
+          },
+          "id": 14,
+          "links": [],
+          "sort": {
+            "col": 3
+          },
+          "styles": [
+            {
+              "align": "auto",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "__name__",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "pod",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "job",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "endpoint",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "namespace",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "prometheus",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "container",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "prometheus_replica",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "service",
+              "type": "hidden"
+            },
+            {
+              "alias": "Serial No ",
+              "align": "auto",
+              "pattern": "serial_no"
+            },
+            {
+              "align": "auto",
+              "pattern": "dnsnames",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "instance",
+              "type": "hidden"
+            },
+            {
+              "alias": "CN",
+              "align": "auto",
+              "pattern": "cn",
+              "type": "string"
+            },
+            {
+              "alias": "Node",
+              "align": "auto",
+              "pattern": "node",
+              "type": "string"
+            },
+            {
+              "alias": "Issuer CN",
+              "align": "auto",
+              "pattern": "issuer_cn",
+              "type": "string"
+            },
+            {
+              "alias": "Kubeconfig",
+              "align": "auto",
+              "pattern": "kubeconfig",
+              "type": "string"
+            },
+            {
+              "alias": "TTL",
+              "align": "auto",
+              "colorMode": "cell",
+              "colors": [
+                "#e02f44",
+                "#ff780a",
+                "#56a64b"
+              ],
+              "decimals": 0,
+              "pattern": "Value",
+              "thresholds": [
+                0,
+                691200
+              ],
+              "type": "number",
+              "unit": "s"
+            }
+          ],
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "ssl_file_cert_not_after{ job=~\"$job\", cluster=\"$cluster\" }* on(pod) group_left(node) kube_pod_info{ cluster=\"$cluster\"} - time()",
+              "format": "table",
+              "instant": true,
+              "intervalFactor": 2,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Internal Kubernetes Certificates",
+          "tooltip": {
+            "sort": 2
+          },
+          "type": "table-old"
+        }
+      ],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Internal Kubernetes Certificates",
+      "titleSize": "h6",
+      "type": "row"
+    },
+    {
+      "collapse": true,
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PC96415006F908B67"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 15,
+      "panels": [
+        {
+          "columns": [],
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 42,
+            "x": 0,
+            "y": 40
+          },
+          "id": 16,
+          "links": [],
+          "sort": {
+            "col": 3
+          },
+          "styles": [
+            {
+              "align": "auto",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "__name__",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "pod",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "job",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "endpoint",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "namespace",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "prometheus",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "container",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "prometheus_replica",
+              "type": "hidden"
+            },
+            {
+              "align": "auto",
+              "pattern": "service",
+              "type": "hidden"
+            },
+            {
+              "alias": "Serial No ",
+              "align": "auto",
+              "pattern": "serial_no"
+            },
+            {
+              "alias": "CN",
+              "align": "auto",
+              "pattern": "cn",
+              "type": "string"
+            },
+            {
+              "alias": "Issuer CN",
+              "align": "auto",
+              "pattern": "issuer_cn",
+              "type": "string"
+            },
+            {
+              "alias": "DNS Names",
+              "align": "auto",
+              "pattern": "dnsnames",
+              "type": "string"
+            },
+            {
+              "alias": "TTL",
+              "align": "auto",
+              "colorMode": "cell",
+              "colors": [
+                "#e02f44",
+                "#ff780a",
+                "#56a64b"
+              ],
+              "decimals": 0,
+              "pattern": "Value",
+              "thresholds": [
+                0,
+                691200
+              ],
+              "type": "number",
+              "unit": "s"
+            }
+          ],
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "ssl_kubernetes_cert_not_after{ job=~\"$job\", cluster=\"$cluster\" } - time()",
+              "format": "table",
+              "instant": true,
+              "intervalFactor": 2,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Kubernetes Secret Certificates",
+          "tooltip": {
+            "sort": 2
+          },
+          "type": "table-old"
+        }
+      ],
+      "showTitle": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PC96415006F908B67"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Kubernetes Secret Certificates",
+      "titleSize": "h6",
+      "type": "row"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "k8s",
+    "app",
+    "L1"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "query": "label_values(node_uname_info, cluster)",
+          "refId": "Prometheus-cluster-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Job",
+        "multi": true,
+        "name": "job",
+        "options": [],
+        "query": {
+          "query": "label_values(ssl_probe_success{cluster=\"$cluster\"}, job)",
+          "refId": "Prometheus-job-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Instance",
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": {
+          "query": "label_values({job=~\"$job\"}, instance)",
+          "refId": "Prometheus-instance-Variable-Query"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "SSL Certificates",
+  "uid": "ssl-exporter",
+  "version": 2,
+  "weekStart": ""
+}
