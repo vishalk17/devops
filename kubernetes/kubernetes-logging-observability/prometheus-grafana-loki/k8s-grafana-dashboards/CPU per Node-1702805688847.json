@@ -62,7 +62,7 @@
         "animationSpeed": 2500,
         "columnAutoSize": true,
         "columns": "",
-        "defaultClickThrough": "/d/nodeexporter?var-job=$job&var-instance=${__cell_name}&refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to",
+        "defaultClickThrough": "/d/nodeexporter-vishalk17?var-job=$job&var-instance=${__cell_name}&refresh=10s&var-datasource=$datasource&var-cluster=$cluster&from=$__from&to=$__to",
         "defaultClickThroughNewTab": false,
         "defaultClickThroughSanitize": false,
         "displayLimit": 100,
