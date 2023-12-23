@@ -24,7 +24,7 @@ $helm repo update
 
 # Get internal IP addresses of all nodes
 NODE_ENDPOINTS=$($kubectl get nodes -o jsonpath={.items[*].status.addresses[?\(@.type==\"InternalIP\"\)].address})
-NODE_ENDPOINTS=$(echo $NODE_ENDPOINTS | sed 's/\s\+/,/g')   # if multiple addresses provide comma in between them
+NODE_ENDPOINTS=$(echo $NODE_ENDPOINTS | tr ' ' ',')  # workround for single node
 
 # Configure Grafana data sources
 helm_opts=(
@@ -40,8 +40,8 @@ helm_opts=(
 $helm upgrade --install kube-prom-stack kube-prom-stack/kube-prometheus-stack \
   --create-namespace --namespace $namespace \
   "${helm_opts[@]}" \
-  --set=kubeControllerManager.endpoints=${NODE_ENDPOINTS} \
-  --set=kubeScheduler.endpoints=${NODE_ENDPOINTS}
+  --set=kubeControllerManager.endpoints={$NODE_ENDPOINTS} \
+  --set=kubeScheduler.endpoints={$NODE_ENDPOINTS}
 
 # Install loki
 $helm upgrade --install loki loki-tempo/loki-stack \
