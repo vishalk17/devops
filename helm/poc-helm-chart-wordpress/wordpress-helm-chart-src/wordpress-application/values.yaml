@@ -1,0 +1,19 @@
+# Default values for wordpress-application.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# deploy-wordpress.yml
+deploy_wordpress:
+  image: "wordpress:6.2.1-apache"
+
+# deploymysql.yml
+deploy_mysql:
+  image: "mysql:8.0"
+
+# wordpress-service.yml
+service_wordpress : ClusterIP
+
+# wordpress-pv.yml
+wordpress:
+  resources_request:
+    storage: "4Gi"

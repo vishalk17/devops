@@ -1,0 +1,5 @@
+#
+
+Thank You for Using WordPress Helm Chart
+
+@vishalk17

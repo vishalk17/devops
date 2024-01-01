@@ -1,0 +1,9 @@
+# this is for Default env
+
+# wordpress-service.yml
+service_wordpress : ClusterIP
+
+# wordpress-pv.yml
+wordpress:
+  resources_request:
+    storage: "1Gi"

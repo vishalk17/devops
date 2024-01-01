@@ -1,0 +1,9 @@
+# this is for test env
+
+# wordpress-service.yml
+service_wordpress : NodePort
+
+# wordpress-pv.yml
+wordpress:
+  resources_request:
+    storage: "2Gi"

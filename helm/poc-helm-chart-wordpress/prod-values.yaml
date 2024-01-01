@@ -1,0 +1,9 @@
+# this is for prod env
+
+# wordpress-service.yml
+service_wordpress : LoadBalancer
+
+# wordpress-pv.yml
+wordpress:
+  resources_request:
+    storage: "4Gi"
