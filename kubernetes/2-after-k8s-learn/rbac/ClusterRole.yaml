@@ -1,0 +1,8 @@
+apiVersion: rbac.authorization.k8s.io/v1    #    Specifies the API version for RBAC
+kind: ClusterRole                           #    Declares this resource as a ClusterRole
+metadata:
+  name: cluster-pod-reader                  #    The name of this ClusterRole
+rules:                                      #    Specifies the rules/permissions of this ClusterRole
+- apiGroups: [""]                           #    "" indicates the core API group
+  resources: ["pods", "pods/log", "services"] #    Specifies the resources (e.g., pods)
+  verbs: ["get", "list", "watch"]           #    Specifies the actions/permissions (e.g., get, list, watch)

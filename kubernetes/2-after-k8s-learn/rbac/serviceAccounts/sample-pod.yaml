@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vishalk17-pod
+  namespace: test
+spec:
+  serviceAccountName: test-sa  # Assign the service account from the test namespace
+  containers:
+    - name: kubectl-container
+      image: bitnami/kubectl
+      command: ["sleep"]
+      args: ["1800"]  # 1800 seconds = 30 minutes

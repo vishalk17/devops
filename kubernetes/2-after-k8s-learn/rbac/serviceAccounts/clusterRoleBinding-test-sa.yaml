@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: test-clusterrolebinding
+subjects:
+  - kind: ServiceAccount
+    name: test-sa    # ServiceAccount Name
+    namespace: test  # Where ServiceAccount name : test-sa exit 
+roleRef:
+  kind: ClusterRole
+  name: test-sa-clusterrole    # Match with clusterRole name
+  apiGroup: rbac.authorization.k8s.io

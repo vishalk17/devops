@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding  # Declares this resource as a RoleBinding
+metadata:
+  name: pod-reader-binding  # The name of this RoleBinding
+  namespace: default  # The namespace where this RoleBinding is created
+subjects:  # Specifies the users, groups, or service accounts this RoleBinding applies to
+- kind: User # The kind of subject (in this case, a User)
+  name: vishalk17  # The name of the user being granted access
+  apiGroup: rbac.authorization.k8s.io
+roleRef:  # References the role being bound by this RoleBinding
+  kind: Role  # The kind of role being referenced
+  name: pod-reader  # The name of the role being bound (must match the name of an existing Role)
+  apiGroup: rbac.authorization.k8s.io 
