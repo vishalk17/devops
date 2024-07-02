@@ -1,0 +1,36 @@
+---
+- name: Install Nginx
+  apt:
+    name: "{{ nginx_package }}"
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Install Nginx
+  yum:
+    name: "{{ nginx_package }}"
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy customized index.html
+  copy:
+    src: files/index.html
+    dest: /usr/share/nginx/html/index.html
+    mode: '0644'
+
+- name: Start Nginx
+  service:
+    name: "{{ nginx_service }}"
+    state: started
+    enabled: yes
+
+- name: Configure Nginx
+  template:
+    src: templates/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: '0644'
+  notify: restart nginx
+
+- name: Restart Nginx
+  service:
+    name: "{{ nginx_service }}"
+    state: restarted

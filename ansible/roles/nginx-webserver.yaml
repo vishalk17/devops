@@ -1,0 +1,7 @@
+--- # roles
+- hosts: dev
+  user: ansible
+  become: yes
+  connection: ssh
+  roles:
+    - nginx-webserver  # role directory name

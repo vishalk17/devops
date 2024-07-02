@@ -1,0 +1,7 @@
+---
+galaxy_info:
+  role_name: nginx-webserver     # The name of the role
+  author: vishal-chinu           # The author of the role
+  description: Install Nginx     # A brief description of what the role does
+  company: vishalk17 group of Business     # The company or organization that created the role
+  license: MIT                      # The license under which the role is distributed
