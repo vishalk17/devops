@@ -23,11 +23,6 @@ INSTALL_TYPE=$1
 
 # Function for common installation steps
 common_installation() {
-    ## Install required packages ##
-    echo "Installing required packages..."
-    yum install -y ansible git
-    sleep 4
-
     ### Add user with password start ###
     echo "Adding ansible user with specified password..."
     useradd -m ansible
@@ -49,6 +44,12 @@ common_installation() {
 # Function for Ansible master installation
 master_installation() {
     common_installation
+
+
+    ## Install required packages ##  make sure python installed on all nodes and control plane
+    echo "Installing required packages..."
+    yum install -y ansible
+    sleep 4
 
     ### Configure Ansible start ###
     echo "Configuring Ansible..."
@@ -74,4 +75,3 @@ case $INSTALL_TYPE in
         usage
         ;;
 esac
-
