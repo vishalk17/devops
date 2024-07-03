@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  become: yes
+  gather_facts: true
+  connection: local
+
+  roles:
+    - ec2_create

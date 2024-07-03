@@ -1,0 +1,24 @@
+---
+- name: start an instance with a public IP address
+  amazon.aws.ec2_instance:
+    name: "{{ item.name }}"
+    instance_type: "{{ type }}"  # pick from /vars/main.yaml
+    region: ap-south-1
+    security_group: default
+    network:
+      assign_public_ip: true
+    image_id: "{{ item.image }}"
+    aws_access_key: "{{ aws_access_key }}"  # to access aws # from ansible vault
+    aws_secret_key: "{{ aws_secret_key }}"
+    tags:
+      Environmient: Testing
+  with_items:
+    - { image: ami-01376101673c89611, name: amz-1 }
+    - { image: ami-01376101673c89611, name: amz-2 }
+    - { image: ami-0ad21ae1d0696ad58, name: ubuntu-1}
+    - { image: ami-0ad21ae1d0696ad58, name: ubuntu-2}
+
+# Ansible won't create multiple instances with the same parameters unless specified differently.
+# Since the AMI ID is the same for two amz instances and two ubuntu instances,
+# if I execute the playbook without providing unique names, it may not create separate instances.
+# By providing unique names for each instance, I ensure the creation of 4 distinct instances, even if the AMI IDs are the same.
