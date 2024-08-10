@@ -1,0 +1,4 @@
+sleep 60s
+yum update -y
+yum install nginx -y
+service nginx start
